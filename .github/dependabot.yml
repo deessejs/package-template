@@ -10,14 +10,27 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "deps"
-      include: "scope"
+    open-pull-requests-limit: 5
+    # Stop Dependabot from generating five PRs when five packages share the same
+    # dep bump. Group so each ecosystem is bumped once.
     groups:
-      dependencies:
+      npm-prod:
+        dependency-type: "production"
         patterns: ["*"]
         update-types: ["minor", "patch"]
+      npm-dev:
+        dependency-type: "development"
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      npm-major:
+        dependency-type: "development"
+        patterns: ["*"]
+        update-types: ["major"]
+    # `increase` bumps the manifest specifier (^X.Y.Z -> ^X+1.0.0) so the
+    # workspace package.json stays consistent with the regenerated lockfile.
+    # Without this, Dependabot updates the lockfile but leaves the specifier
+    # unchanged and `pnpm install --frozen-lockfile` fails in CI.
+    versioning-strategy: increase
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -25,6 +38,9 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
     commit-message:
       prefix: "ci"
       include: "scope"
