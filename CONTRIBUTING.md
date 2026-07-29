@@ -1,11 +1,11 @@
-# Contributing to Complete Package Template
+# Contributing to package-template
 
 Thank you for your interest in contributing to this project!
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/complete-package-template.git`
+2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/package-template.git`
 3. Install dependencies: `pnpm install`
 4. Create a feature branch: `git checkout -b feature/your-feature-name`
 
@@ -16,27 +16,28 @@ Thank you for your interest in contributing to this project!
 If you are improving the template:
 
 1. Make your changes
-2. Ensure all tests pass: `pnpm test`
-3. Run linting: `pnpm lint`
-4. Run type checking: `pnpm turbo type-check`
-5. Build the project: `pnpm build`
-6. Commit your changes
-7. Open a pull request
+2. Run the verification chain: `pnpm lint && pnpm type-check && pnpm test:run`
+3. Build the project: `pnpm build`
+4. Commit your changes
+5. Open a pull request
 
 ### Using the Template for a New Project
 
 If you cloned this template to start a new project and found an issue or have a feature idea:
 
-- **Create an issue** on the template repository: https://github.com/nesalia-inc/complete-package-template/issues
+- **Create an issue** on the template repository: https://github.com/deessejs/package-template/issues
 - Use the appropriate issue template for your report
 
 ## Branching Strategy
 
 This project follows `main` <- `staging` <- `dev` branching:
 
-- `main`: Production-ready code (all developers push here)
-- `staging`: Release candidate testing
-- `dev`: Work-in-progress development
+- `main`: Production-ready code. Releases are cut from here.
+- `staging`: Release candidate testing.
+- `dev`: Work-in-progress development.
+
+All developers push directly to `main`. The release engineer manages the flow into
+`staging` and the final cut from `staging` to `main`.
 
 ## Commit Messages
 
@@ -56,22 +57,25 @@ Use conventional commits:
 - Add semicolons
 - Run Prettier before committing: `pnpm format`
 
+The pre-commit hook runs `pnpm lint` and `pnpm type-check`. Skip with
+`git commit --no-verify` when you need to.
+
 ## Testing
 
 Run tests before submitting a PR:
 
 ```bash
-pnpm test          # Run all tests (watch mode)
-pnpm test:run      # Run all tests once
-pnpm turbo test    # Run tests across all packages
+pnpm test      # Watch mode — for local development
+pnpm test:run  # Single run — for scripts and CI
 ```
 
 ## Pull Request Process
 
-1. Update documentation if needed
-2. Add tests for new functionality
-3. Ensure all CI checks pass
-4. Request review from maintainers
+1. Add a changeset if your change should cut a release: `pnpm changeset`
+2. Update documentation if needed
+3. Add tests for new functionality
+4. Ensure all CI checks pass
+5. Add the `version bump` label before merging if a release is intended
 
 ## Questions?
 

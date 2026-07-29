@@ -12,7 +12,7 @@ There are two ways to work with this project:
 
 1. **Developing the template itself**: You are working directly on this repository to improve or maintain it.
 
-2. **Using the template for a new project**: You have cloned this template to start a new project. If you encounter a bug, have an idea for a new feature, or notice something that should be fixed in the template, **create an issue on the template repository** (https://github.com/nesalia-inc/complete-package-template/issues) so the template can be improved for everyone. Use the issue templates located in `.github/ISSUE_TEMPLATE/` when creating issues.
+2. **Using the template for a new project**: You have cloned this template to start a new project. If you encounter a bug, have an idea for a new feature, or notice something that should be fixed in the template, **create an issue on the template repository** (https://github.com/deessejs/package-template/issues) so the template can be improved for everyone. Use the issue templates located in `.github/ISSUE_TEMPLATE/` when creating issues.
 
 ## Communication
 
@@ -22,11 +22,11 @@ There are two ways to work with this project:
 
 This project follows the branching model: `main` <- `staging` <- `dev`
 
-- **dev**: Latest work-in-progress changes. Developers work here.
-- **staging**: Contains work that has been reviewed and is ready for release testing.
-- **main**: Production-ready code. Contains the official release history.
+- **main**: Production-ready code. Contains the official release history. All developers push here.
+- **staging**: Release candidate testing. Branches off `main` for a release.
+- **dev**: Integration branch for in-progress work that hasn't been promoted to `main` yet.
 
-All developers push directly to `main`. The release engineer is responsible for managing the flow from `main` to `staging` and from `staging` to `main` (releases).
+The release engineer is responsible for managing the flow from `main` to `staging` and from `staging` to `main` (releases).
 
 ## Web Search
 

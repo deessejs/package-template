@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "@deessejs/example",
   "version": "1.0.0",
   "description": "Example TypeScript package",
   "type": "module",
@@ -8,16 +8,34 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deessejs/package-template.git",
+    "directory": "packages/example"
+  },
+  "homepage": "https://github.com/deessejs/package-template#readme",
+  "bugs": {
+    "url": "https://github.com/deessejs/package-template/issues"
   },
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",
     "build": "tsc -p tsconfig.build.json",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\""
   },
   "keywords": ["typescript", "template", "monorepo"],
   "author": "Nesalia Inc. <hello@nesalia.com>",

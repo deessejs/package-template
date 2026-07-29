@@ -119,8 +119,9 @@ pnpm --filter web dev
 │       └── src/app/          # Routes, incl. llms.txt and OG image generation
 ├── packages/
 │   └── example/              # The publishable package — rename this
-│       ├── src/              # Source + colocated tests
-│       ├── tsconfig.json     # Editor / type-check config (noEmit)
+│       ├── src/              # Source
+│       ├── tests/            # Vitest suites (outside src so dist/ stays clean)
+│       ├── tsconfig.json     # Editor / type-check config (noEmit, includes tests)
 │       └── tsconfig.build.json  # Build config (emits dist/, excludes tests)
 ├── .changeset/               # Pending version bumps
 ├── .github/

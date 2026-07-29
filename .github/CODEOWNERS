@@ -1,5 +1,5 @@
 # Default code owners for the repository
-* @nesalia-inc/engineering
+* @deessejs/engineering
 
 # CI/CD
-/.github/ @nesalia-inc/engineering
+/.github/ @deessejs/engineering

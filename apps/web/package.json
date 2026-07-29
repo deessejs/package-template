@@ -8,7 +8,9 @@
     "dev": "next dev",
     "start": "next start",
     "postinstall": "fumadocs-mdx && next typegen",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "clean": "node -e \"for (const d of ['.next', '.source']) require('fs').rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
     "fumadocs-core": "16.9.1",
@@ -26,6 +28,7 @@
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^9.0.0",
     "eslint-config-next": "16.2.6",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0",

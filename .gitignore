@@ -42,6 +42,3 @@ temp/
 
 # Generated files
 *.tsbuildinfo
-
-# Changesets
-.changeset/
