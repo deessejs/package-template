@@ -60,15 +60,15 @@ want to release, and the pipeline handles the rest.
 
 ## What's included
 
-| Layer | What you get | Why it matters |
-|---|---|---|
-| **Package** | `packages/example` — ESM-only, `exports` map, separate build tsconfig, `files` allowlist | Publishes clean. No source, tests, or configs in the tarball. |
-| **Docs site** | `apps/web` — Next.js 16 + Fumadocs, MDX content, full-text search, `llms.txt` | Deployable docs from day one, LLM-readable by default. |
-| **Testing** | Vitest, node environment, globals enabled | Fast, zero-config, ESM-native. |
-| **Releases** | Changesets + label-gated publish workflow | Semver and changelogs are decided in the PR, not at publish time. |
-| **CI** | Lint, type-check, test, build — each its own workflow, all with Turbo cache | Failures name themselves. You see *what* broke from the checks list. |
-| **Tooling** | pnpm 10 workspaces, Turborepo v2, Prettier, ESLint 9 flat config, husky | One command lints, types, tests, builds the whole workspace. |
-| **Governance** | 5 issue templates, PR template, CODEOWNERS, Dependabot, SECURITY.md | The paperwork a public repo needs, already filled in. |
+| Layer          | What you get                                                                             | Why it matters                                                       |
+| -------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Package**    | `packages/example` — ESM-only, `exports` map, separate build tsconfig, `files` allowlist | Publishes clean. No source, tests, or configs in the tarball.        |
+| **Docs site**  | `apps/web` — Next.js 16 + Fumadocs, MDX content, full-text search, `llms.txt`            | Deployable docs from day one, LLM-readable by default.               |
+| **Testing**    | Vitest, node environment, globals enabled                                                | Fast, zero-config, ESM-native.                                       |
+| **Releases**   | Changesets + label-gated publish workflow                                                | Semver and changelogs are decided in the PR, not at publish time.    |
+| **CI**         | Lint, type-check, test, build — each its own workflow, all with Turbo cache              | Failures name themselves. You see _what_ broke from the checks list. |
+| **Tooling**    | pnpm 10 workspaces, Turborepo v2, Prettier, ESLint 9 flat config, husky                  | One command lints, types, tests, builds the whole workspace.         |
+| **Governance** | 5 issue templates, PR template, CODEOWNERS, Dependabot, SECURITY.md                      | The paperwork a public repo needs, already filled in.                |
 
 ## Why this template
 
@@ -88,18 +88,18 @@ want to release, and the pipeline handles the rest.
 
 Run from the repo root.
 
-| Command | What it does |
-|---|---|
-| `pnpm dev` | Start the docs site in dev mode |
-| `pnpm build` | Build every workspace |
-| `pnpm test` | Run tests in watch mode |
-| `pnpm test:run` | Run tests once, then exit — use this in scripts |
-| `pnpm lint` | Lint every workspace |
-| `pnpm type-check` | Type-check every workspace |
-| `pnpm format` | Rewrite files with Prettier |
-| `pnpm format:check` | Check formatting without writing |
-| `pnpm changeset` | Record a version bump and changelog entry |
-| `pnpm clean` | Remove build outputs and `node_modules` |
+| Command             | What it does                                    |
+| ------------------- | ----------------------------------------------- |
+| `pnpm dev`          | Start the docs site in dev mode                 |
+| `pnpm build`        | Build every workspace                           |
+| `pnpm test`         | Run tests in watch mode                         |
+| `pnpm test:run`     | Run tests once, then exit — use this in scripts |
+| `pnpm lint`         | Lint every workspace                            |
+| `pnpm type-check`   | Type-check every workspace                      |
+| `pnpm format`       | Rewrite files with Prettier                     |
+| `pnpm format:check` | Check formatting without writing                |
+| `pnpm changeset`    | Record a version bump and changelog entry       |
+| `pnpm clean`        | Remove build outputs and `node_modules`         |
 
 Scoped to a single workspace:
 
@@ -175,11 +175,11 @@ the release workflow builds, tests, versions, and publishes to npm.
 
 ### Required repository secrets
 
-| Secret | Required | Purpose |
-|---|---|---|
-| `NPM_TOKEN` | Yes | Automation token with publish rights to your scope |
-| `TURBO_TOKEN` | No | Turborepo remote cache token |
-| `TURBO_TEAM` | No | Turborepo remote cache team (a repo *variable*, not a secret) |
+| Secret        | Required | Purpose                                                       |
+| ------------- | -------- | ------------------------------------------------------------- |
+| `NPM_TOKEN`   | Yes      | Automation token with publish rights to your scope            |
+| `TURBO_TOKEN` | No       | Turborepo remote cache token                                  |
+| `TURBO_TEAM`  | No       | Turborepo remote cache team (a repo _variable_, not a secret) |
 
 `GITHUB_TOKEN` is provided automatically.
 
@@ -192,10 +192,10 @@ automatically — the file tree is the navigation.
 pnpm --filter web dev     # http://localhost:3000
 ```
 
-| Env var | Required | Purpose |
-|---|---|---|
-| `NEXT_PUBLIC_APP_URL` | No | Canonical URL, used for OG images and metadata |
-| `NEXT_PUBLIC_FUMADOCS_URL` | No | Override the docs base URL when hosted separately |
+| Env var                    | Required | Purpose                                           |
+| -------------------------- | -------- | ------------------------------------------------- |
+| `NEXT_PUBLIC_APP_URL`      | No       | Canonical URL, used for OG images and metadata    |
+| `NEXT_PUBLIC_FUMADOCS_URL` | No       | Override the docs base URL when hosted separately |
 
 Copy `apps/web/.env.example` to `apps/web/.env.local` to start. Defaults work locally.
 

@@ -12,7 +12,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -37,7 +39,11 @@
     "lint": "eslint src/",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\""
   },
-  "keywords": ["typescript", "template", "monorepo"],
+  "keywords": [
+    "typescript",
+    "template",
+    "monorepo"
+  ],
   "author": "Nesalia Inc. <hello@nesalia.com>",
   "license": "MIT",
   "devDependencies": {
