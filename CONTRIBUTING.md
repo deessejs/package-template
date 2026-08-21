@@ -75,7 +75,7 @@ pnpm test:run  # Single run — for scripts and CI
 2. Update documentation if needed
 3. Add tests for new functionality
 4. Ensure all CI checks pass
-5. Add the `version bump` label before merging if a release is intended
+5. The release workflow is fully automatic — no label to add.
 
 ## Questions?
 

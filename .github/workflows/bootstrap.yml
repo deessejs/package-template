@@ -1,0 +1,36 @@
+name: Bootstrap reminder
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check bootstrap state
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect missing setup
+        id: check
+        run: |
+          if [ -f .setup-done ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Print banner
+        if: steps.check.outputs.configured == 'false'
+        run: |
+          {
+            echo "## ⚠️  This repo still matches the package-template defaults"
+            echo ""
+            echo "You cloned \`deessejs/package-template\`. Run \`pnpm setup\` to set your"
+            echo "package name and GitHub repo, then commit the \`.setup-done\` marker."
+            echo ""
+            echo "After \`pnpm setup\`, this banner disappears on the next push to \`main\`."
+          } >> "$GITHUB_STEP_SUMMARY"

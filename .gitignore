@@ -42,3 +42,6 @@ temp/
 
 # Generated files
 *.tsbuildinfo
+
+# Bootstrap marker — written by `pnpm setup`, must not be committed
+.setup-done

@@ -42,14 +42,17 @@ pnpm install
 # 2. Rename the example package
 #    packages/example/package.json → set "name" to "@your-scope/your-package"
 #    Update the directory name too: git mv packages/example packages/your-package
+#
+#    Or skip steps 2–3 by running `pnpm setup`, which rewrites every
+#    manifest and the README in one pass.
 
 # 3. Point the repo at yourself
 #    package.json        → name, description, author, repository
 #    .github/CODEOWNERS  → your team
 #    LICENSE             → copyright holder
 
-# 4. Add your npm token as a repo secret
-#    Settings → Secrets → Actions → NPM_TOKEN
+# 4. (Optional) Configure npm Trusted Publishing for @your-scope
+#    https://docs.npmjs.com/trusted-publishers/ — no NPM_TOKEN required.
 
 # 5. Verify everything is green
 pnpm lint && pnpm type-check && pnpm test:run && pnpm build
@@ -166,18 +169,29 @@ pnpm changeset
 # 2. Open your PR as usual
 ```
 
-When the PR is ready to ship, add the **`version bump`** label before merging. On merge,
-the release workflow builds, tests, versions, and publishes to npm.
+When the PR is ready to ship, merge it. The release workflow is fully
+automatic: it builds, tests, versions, and publishes to npm on every push
+to `main`. No labels, no manual steps.
 
-> [!NOTE]
-> No label, no publish. PRs merge normally without one — useful for docs, CI, and
-> refactors that shouldn't cut a release.
+## Preview releases
+
+Every push to a branch and every pull request installs a preview tarball
+via [pkg.pr.new](https://pkg.pr.new). The bot posts the install command
+on each PR automatically — no secrets, no npm publish, no extra config.
+
+```bash
+npm i https://pkg.pr.new/<owner>/<repo>/<package>@<sha>
+```
+
+To enable PR comments, install the [pkg-pr-new GitHub App](https://github.com/apps/pkg-pr-new)
+on the repository. The `preview.yml` workflow runs without it; it just
+won't post comments.
 
 ### Required repository secrets
 
 | Secret        | Required | Purpose                                                       |
 | ------------- | -------- | ------------------------------------------------------------- |
-| `NPM_TOKEN`   | Yes      | Automation token with publish rights to your scope            |
+| `NPM_TOKEN`   | No       | Only required if you opt out of npm Trusted Publishing (OIDC) |
 | `TURBO_TOKEN` | No       | Turborepo remote cache token                                  |
 | `TURBO_TEAM`  | No       | Turborepo remote cache team (a repo _variable_, not a secret) |
 
