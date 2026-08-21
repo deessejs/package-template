@@ -65,9 +65,15 @@ The pre-commit hook runs `pnpm lint` and `pnpm type-check`. Skip with
 Run tests before submitting a PR:
 
 ```bash
-pnpm test      # Watch mode — for local development
-pnpm test:run  # Single run — for scripts and CI
+pnpm test           # Watch mode — for local development
+pnpm test:run       # Single run — for scripts and CI
+pnpm coverage       # Single run with V8 coverage — writes packages/example/coverage/
 ```
+
+The coverage workflow posts a PR comment with line/branch/function coverage and a
+visual status (🟢 / 🟠 / 🔴). It never blocks the PR — even a failure _only_ shows
+a red icon. To inspect the full HTML report locally, open
+`packages/example/coverage/index.html` in your browser.
 
 ## Pull Request Process
 

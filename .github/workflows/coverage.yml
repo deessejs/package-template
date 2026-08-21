@@ -1,0 +1,54 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: [main, staging, dev]
+  push:
+    branches: [main, staging, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write # vitest-coverage-report-action posts the PR comment
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+jobs:
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run coverage
+        run: pnpm turbo test:coverage
+
+      - name: Post coverage report
+        if: always()
+        uses: step-security/vitest-coverage-report-action@v2
+        with:
+          working-directory: packages/example
+          json-summary-path: packages/example/coverage/coverage-summary.json
+          json-final-path: packages/example/coverage/coverage-final.json
+          file-coverage-mode: changes
+          name: '@deessejs/example coverage'
+          # JSON object — keys are % thresholds, values are the icons used
+          # until a higher threshold is reached. Visual only — never blocks.
+          threshold-icons: "{0: '🔴', 80: '🟠', 90: '🟢'}"
+          comment-on: pr

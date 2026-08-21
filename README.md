@@ -63,15 +63,15 @@ want to release, and the pipeline handles the rest.
 
 ## What's included
 
-| Layer          | What you get                                                                             | Why it matters                                                       |
-| -------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **Package**    | `packages/example` — ESM-only, `exports` map, separate build tsconfig, `files` allowlist | Publishes clean. No source, tests, or configs in the tarball.        |
-| **Docs site**  | `apps/web` — Next.js 16 + Fumadocs, MDX content, full-text search, `llms.txt`            | Deployable docs from day one, LLM-readable by default.               |
-| **Testing**    | Vitest, node environment, globals enabled                                                | Fast, zero-config, ESM-native.                                       |
-| **Releases**   | Changesets + label-gated publish workflow                                                | Semver and changelogs are decided in the PR, not at publish time.    |
-| **CI**         | Lint, type-check, test, build — each its own workflow, all with Turbo cache              | Failures name themselves. You see _what_ broke from the checks list. |
-| **Tooling**    | pnpm 10 workspaces, Turborepo v2, Prettier, ESLint 9 flat config, husky                  | One command lints, types, tests, builds the whole workspace.         |
-| **Governance** | 5 issue templates, PR template, CODEOWNERS, Dependabot, SECURITY.md                      | The paperwork a public repo needs, already filled in.                |
+| Layer          | What you get                                                                             | Why it matters                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Package**    | `packages/example` — ESM-only, `exports` map, separate build tsconfig, `files` allowlist | Publishes clean. No source, tests, or configs in the tarball.                                     |
+| **Docs site**  | `apps/web` — Next.js 16 + Fumadocs, MDX content, full-text search, `llms.txt`            | Deployable docs from day one, LLM-readable by default.                                            |
+| **Testing**    | Vitest, node environment, globals enabled                                                | Fast, zero-config, ESM-native.                                                                    |
+| **Releases**   | Changesets + label-gated publish workflow                                                | Semver and changelogs are decided in the PR, not at publish time.                                 |
+| **CI**         | Lint, type-check, test, build, coverage — each its own workflow, all with Turbo cache    | Failures name themselves. The coverage workflow posts a PR comment with thresholds, never blocks. |
+| **Tooling**    | pnpm 10 workspaces, Turborepo v2, Prettier, ESLint 9 flat config, husky                  | One command lints, types, tests, builds the whole workspace.                                      |
+| **Governance** | 5 issue templates, PR template, CODEOWNERS, Dependabot, SECURITY.md                      | The paperwork a public repo needs, already filled in.                                             |
 
 ## Why this template
 
@@ -79,7 +79,7 @@ want to release, and the pipeline handles the rest.
 - **Publishing is solved.** Changesets is initialized, the `exports` map is correct, and the tarball ships `dist/` and nothing else. You don't have to learn npm packaging to ship.
 - **The docs site is real.** Fumadocs with search and `llms.txt` routes, not a placeholder README rendered as HTML.
 - **Monorepo from the start, without the tax.** One package today, ten tomorrow. Turbo already knows the dependency graph.
-- **CI that tells you what broke.** Four separate workflows instead of one wall of logs.
+- **CI that tells you what broke.** Five separate workflows instead of one wall of logs.
 
 ## Requirements
 
@@ -91,18 +91,20 @@ want to release, and the pipeline handles the rest.
 
 Run from the repo root.
 
-| Command             | What it does                                    |
-| ------------------- | ----------------------------------------------- |
-| `pnpm dev`          | Start the docs site in dev mode                 |
-| `pnpm build`        | Build every workspace                           |
-| `pnpm test`         | Run tests in watch mode                         |
-| `pnpm test:run`     | Run tests once, then exit — use this in scripts |
-| `pnpm lint`         | Lint every workspace                            |
-| `pnpm type-check`   | Type-check every workspace                      |
-| `pnpm format`       | Rewrite files with Prettier                     |
-| `pnpm format:check` | Check formatting without writing                |
-| `pnpm changeset`    | Record a version bump and changelog entry       |
-| `pnpm clean`        | Remove build outputs and `node_modules`         |
+| Command              | What it does                                                                      |
+| -------------------- | --------------------------------------------------------------------------------- |
+| `pnpm dev`           | Start the docs site in dev mode                                                   |
+| `pnpm build`         | Build every workspace                                                             |
+| `pnpm test`          | Run tests in watch mode                                                           |
+| `pnpm test:run`      | Run tests once, then exit — use this in scripts                                   |
+| `pnpm test:coverage` | Run tests once with V8 coverage and write reports to `packages/example/coverage/` |
+| `pnpm coverage`      | Workspace alias for `pnpm test:coverage`                                          |
+| `pnpm lint`          | Lint every workspace                                                              |
+| `pnpm type-check`    | Type-check every workspace                                                        |
+| `pnpm format`        | Rewrite files with Prettier                                                       |
+| `pnpm format:check`  | Check formatting without writing                                                  |
+| `pnpm changeset`     | Record a version bump and changelog entry                                         |
+| `pnpm clean`         | Remove build outputs and `node_modules`                                           |
 
 Scoped to a single workspace:
 
@@ -128,7 +130,7 @@ pnpm --filter web dev
 │       └── tsconfig.build.json  # Build config (emits dist/, excludes tests)
 ├── .changeset/               # Pending version bumps
 ├── .github/
-│   ├── workflows/            # lint, types, tests, build, release
+│   ├── workflows/            # lint, types, tests, build, coverage, release
 │   └── ISSUE_TEMPLATE/       # bug, feature, docs, refactor, task
 ├── pnpm-workspace.yaml
 └── turbo.json                # Task pipeline and cache config

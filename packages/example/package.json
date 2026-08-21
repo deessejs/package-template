@@ -34,6 +34,8 @@
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",
+    "coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage",
     "build": "tsc -p tsconfig.build.json",
     "type-check": "tsc --noEmit",
     "lint": "eslint src/",
@@ -48,9 +50,10 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@vitest/coverage-v8": "4.1.11",
     "eslint": "^9.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.0.0",
-    "vitest": "^4.1.7"
+    "vitest": "^4.1.11"
   }
 }
