@@ -44,8 +44,12 @@ jobs:
         uses: step-security/vitest-coverage-report-action@v2
         with:
           working-directory: packages/example
-          json-summary-path: packages/example/coverage/coverage-summary.json
-          json-final-path: packages/example/coverage/coverage-final.json
+          # Paths are relative to `working-directory`; vitest writes them to
+          # `<cwd>/coverage/` and the action would otherwise try to open
+          # `packages/example/packages/example/coverage/...`.
+          json-summary-path: coverage/coverage-summary.json
+          json-final-path: coverage/coverage-final.json
+          file-coverage-root-path: ${{ github.workspace }}
           file-coverage-mode: changes
           name: '@deessejs/example coverage'
           # JSON object — keys are % thresholds, values are the icons used
