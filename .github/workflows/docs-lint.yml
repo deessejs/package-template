@@ -2,16 +2,20 @@ name: Docs Lint
 
 on:
   pull_request:
+    # Only run when the docs tree or Vale config itself changes.
+    # Without `paths`, every PR would spin up a Vale run even for code-only diffs.
+    paths:
+      - 'docs/**/*.md'
+      - '.vale.ini'
+      - '.github/styles/**'
+      - '.github/workflows/docs-lint.yml'
   push:
+    paths:
+      - 'docs/**/*.md'
+      - '.vale.ini'
+      - '.github/styles/**'
+      - '.github/workflows/docs-lint.yml'
   workflow_dispatch:
-
-# Only run when the docs tree or Vale config itself changes.
-# Without `paths`, every PR would spin up a Vale run even for code-only diffs.
-paths:
-  - 'docs/**/*.md'
-  - '.vale.ini'
-  - '.github/styles/**'
-  - '.github/workflows/docs-lint.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
