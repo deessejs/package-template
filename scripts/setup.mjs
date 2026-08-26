@@ -87,6 +87,9 @@ function rewriteRepository(obj, repo, directory) {
 }
 
 function applyToPackageJson(name, repo) {
+  // NOTE: this rewrite MUST stay surgical. Anything added by the template
+  // (scripts, devDependencies, vitest config contents, etc.) is preserved by
+  // re-serializing the entire object — only the keys we touch are modified.
   const pkg = readJson(PKG_JSON);
   pkg.name = name;
   rewriteRepository(pkg, repo, 'packages/example');
@@ -155,11 +158,7 @@ function readMarker() {
 function writeMarker(name, repo, author) {
   writeFileSync(
     SETUP_DONE,
-    JSON.stringify(
-      { name, repo, author, timestamp: new Date().toISOString() },
-      null,
-      2,
-    ) + '\n',
+    JSON.stringify({ name, repo, author, timestamp: new Date().toISOString() }, null, 2) + '\n'
   );
 }
 
@@ -175,8 +174,7 @@ async function main() {
   const currentPkg = readJson(PKG_JSON);
   const marker = readMarker();
 
-  const name =
-    args.name ?? (await prompt('Package name', defaultPackageName(currentPkg.name)));
+  const name = args.name ?? (await prompt('Package name', defaultPackageName(currentPkg.name)));
   const repo =
     args.repo ??
     (await prompt('GitHub repo (owner/name)', defaultRepo(currentPkg.repository?.url)));
@@ -199,7 +197,7 @@ async function main() {
   console.log(`  Setup complete: ${newName} → ${repo}`);
   console.log('');
   console.log(
-    '  Next: pnpm install && pnpm lint && pnpm type-check && pnpm test:run && pnpm build',
+    '  Next: pnpm install && pnpm lint && pnpm type-check && pnpm test:run && pnpm build'
   );
 }
 
