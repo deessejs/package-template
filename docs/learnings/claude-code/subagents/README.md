@@ -139,8 +139,8 @@ Enable with `CLAUDE_CODE_FORK_SUBAGENT=1` (experimental, v2.1.117+).
 
 ## Limitations
 
-- Sub-agents cannot spawn other sub-agents
-- Fork mode cannot spawn further forks
+- Sub-agents can't spawn other sub-agents
+- Fork mode can't spawn further forks
 - Fork mode disabled in headless/Agent SDK mode
 
 ## Sources
