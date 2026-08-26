@@ -22,6 +22,10 @@
       "dependsOn": ["^build"]
     },
     "lint": {},
+    "lint:docs": {
+      "cache": false,
+      "inputs": [".vale.ini", ".github/styles/**", "docs/**/*.md"]
+    },
     "clean": {
       "cache": false
     },

@@ -20,6 +20,7 @@
     "coverage": "turbo test:coverage",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "lint:docs": "turbo lint:docs",
     "type-check": "turbo type-check",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,css,md}\"",

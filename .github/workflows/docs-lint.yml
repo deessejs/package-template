@@ -1,0 +1,62 @@
+name: Docs Lint
+
+on:
+  pull_request:
+    # Only run when the docs tree or Vale config itself changes.
+    # Without `paths`, every PR would spin up a Vale run even for code-only diffs.
+    paths:
+      - 'docs/**/*.md'
+      - '.vale.ini'
+      - '.github/styles/**'
+      - '.github/workflows/docs-lint.yml'
+  push:
+    paths:
+      - 'docs/**/*.md'
+      - '.vale.ini'
+      - '.github/styles/**'
+      - '.github/workflows/docs-lint.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# `pull-requests: write` lets reviewdog post inline review comments with
+# suggested changes on PRs. Fork PRs run with a read-only token and degrade
+# to the log-only `github-pr-check` reporter — see the `reporter` input below.
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+jobs:
+  vale:
+    name: Vale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Always run `vale sync` — the Microsoft style package is small enough
+      # that the network cost is negligible, and a previous version of this
+      # workflow cached an empty `StylesPath`, which caused Vale to report
+      # `style 'Microsoft' does not exist` on subsequent runs. We can revisit
+      # caching once we have evidence the network step is the bottleneck.
+      - uses: vale-cli/vale-action@v3
+        with:
+          sync: true
+          files: docs
+          # Strict: every Microsoft alert at `error` blocks the check.
+          # Lower to `warning` once the baseline noise is cleaned up.
+          fail_level: error
+          # Only annotate lines that appear in the PR diff — keeps the
+          # review thread focused on what the contributor actually changed.
+          filter_mode: added
+          # Pull-request runs post inline review comments (with suggested
+          # fixes when a rule declares an `action`); direct pushes post a
+          # single check run instead.
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-pr-check' }}

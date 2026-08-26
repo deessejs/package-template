@@ -4,6 +4,8 @@
 
 **Why it matters:** Sub-agents enable parallel work, enforce tool restrictions, and route tasks to appropriate models. They keep the main conversation clean while handling side tasks that would flood it with verbose output.
 
+**Status note:** this learning note was last reviewed in 2026 and reflects the Claude Code behaviour available at that time.
+
 ## Built-in sub-agents
 
 | Agent             | Model    | Tools     | Purpose                                            |
@@ -137,8 +139,8 @@ Enable with `CLAUDE_CODE_FORK_SUBAGENT=1` (experimental, v2.1.117+).
 
 ## Limitations
 
-- Sub-agents cannot spawn other sub-agents
-- Fork mode cannot spawn further forks
+- Sub-agents can't spawn other sub-agents
+- Fork mode can't spawn further forks
 - Fork mode disabled in headless/Agent SDK mode
 
 ## Sources

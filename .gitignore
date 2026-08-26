@@ -45,3 +45,8 @@ temp/
 
 # Bootstrap marker — written by `pnpm setup`, must not be committed
 .setup-done
+
+# Vale — packages downloaded by `vale sync` (Microsoft, etc.).
+# The `config/` subdirectory stays tracked for project-specific vocab.
+.github/styles/*
+!/.github/styles/config/
