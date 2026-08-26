@@ -41,19 +41,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      # `vale sync` re-downloads every style package declared in `.vale.ini`
-      # on each run. Cache the `StylesPath` and skip the sync on a hit so
-      # unchanged configs only pay the network cost on the first run.
-      - uses: actions/cache@v4
-        id: styles
-        with:
-          path: .github/styles
-          key: vale-${{ hashFiles('.vale.ini') }}
-          restore-keys: vale-
-
+      # Always run `vale sync` — the Microsoft style package is small enough
+      # that the network cost is negligible, and a previous version of this
+      # workflow cached an empty `StylesPath`, which caused Vale to report
+      # `style 'Microsoft' does not exist` on subsequent runs. We can revisit
+      # caching once we have evidence the network step is the bottleneck.
       - uses: vale-cli/vale-action@v3
         with:
-          sync: ${{ steps.styles.outputs.cache-hit != 'true' }}
+          sync: true
           files: docs
           # Strict: every Microsoft alert at `error` blocks the check.
           # Lower to `warning` once the baseline noise is cleaned up.
