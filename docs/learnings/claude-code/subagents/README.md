@@ -4,6 +4,8 @@
 
 **Why it matters:** Sub-agents enable parallel work, enforce tool restrictions, and route tasks to appropriate models. They keep the main conversation clean while handling side tasks that would flood it with verbose output.
 
+**Status note:** this learning note was last reviewed in 2026 and reflects the Claude Code behaviour available at that time.
+
 ## Built-in sub-agents
 
 | Agent             | Model    | Tools     | Purpose                                            |
