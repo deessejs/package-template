@@ -1,4 +1,4 @@
-# Incident response—release failures
+# Incident response, release failures
 
 ## When to use this document
 
@@ -14,14 +14,14 @@ The flow described here assumes the release workflow
 
 Start from the failure surface and work back to the cause:
 
-1. **GitHub Actions run log**—Open the failed run, look at the failing
+1. **GitHub Actions run log**, Open the failed run, look at the failing
    step's output. Most failures are visible in plain text.
-2. **npm publish attempt**—If the publish step itself failed, the npm
+2. **npm publish attempt**, If the publish step itself failed, the npm
    CLI prints an error code and a message. These are the most useful
    diagnostic messages we get.
-3. **Workflow file**—Compare against `release.yml` in the repo. Has it
+3. **Workflow file**, Compare against `release.yml` in the repo. Has it
    been edited locally without being merged?
-4. **Trusted publisher config**—https://www.npmjs.com/package/`<scope>/<package>`/access.
+4. **Trusted publisher config**, https://www.npmjs.com/package/`<scope>/<package>`/access.
    Is the entry present? Does the filename match?
 
 ## Common failure modes
@@ -55,8 +55,8 @@ previously published versions`.
 
 1. The version already exists on npm (a previous run succeeded but a
    later step failed). For canaries this is expected on re-run with the
-   same SHA—see "Canary re-run" below.
-2. The version was published by a different publisher (for example,a manual
+   same SHA, see "Canary re-run" below.
+2. The version was published by a different publisher (for example, a manual
    `npm publish` from a developer's machine).
 
 **Fix**: bump the version (commit a change to a file, push a new commit)
@@ -69,7 +69,7 @@ commit that wasn't authored by you, OR `.changeset/*.md` files are
 missing on `staging` after a canary run.
 
 **Likely cause**: A `changesets/action@v2` step was added to the canary
-job by mistake. Snapshot mode's whole point is to be ephemeral—no
+job by mistake. Snapshot mode's whole point is to be ephemeral, no
 commits.
 
 **Fix**: Remove the action wrapper from the canary job. Use raw
@@ -82,7 +82,7 @@ commits.
 version isn't on npm.
 
 **Likely cause**: `pnpm release` (which runs `changeset publish`) failed
-mid-flight—usually an OIDC auth failure (see above) or an npm registry
+mid-flight, usually an OIDC auth failure (see above) or an npm registry
 outage.
 
 **Fix**:
@@ -91,7 +91,7 @@ outage.
 2. Fix the underlying cause.
 3. Re-run the workflow. Changesets will see that the version in
    `package.json` matches a version already prepared, and skip the version
-   step on retry—going straight to `changeset publish`. If the version
+   step on retry, going straight to `changeset publish`. If the version
    has already been published to npm somehow, the publish step will
    detect it and skip cleanly.
 
@@ -102,7 +102,7 @@ package name (for example,`@deessejs/example` after `pnpm setup` renamed it).
 
 **Likely cause**: `pnpm setup` didn't update the trusted publisher
 config on npmjs.com. The publish still succeeds because OIDC
-authenticates against the **workflow file**, not the package—but the
+authenticates against the **workflow file**, not the package, but the
 provenance attestation points at the wrong repository state.
 
 **Fix**: Update the trusted publisher entry on npmjs.com to point at the
@@ -124,7 +124,7 @@ is set up correctly, a re-run of the entire job will detect the existing
 version and skip the version step.
 
 If a developer has manually edited `package.json` or created commits
-after the failed publish, don't push—this creates version drift. The
+after the failed publish, don't push, this creates version drift. The
 correct recovery is to manually revert the version-bump commit on `main`
 and re-run the workflow from a clean state.
 
@@ -146,12 +146,12 @@ a new commit.
 
 ## When to disable the canary
 
-If canaries are causing persistent failures (for example,npm registry issues
+If canaries are causing persistent failures (for example, npm registry issues
 that prevent any snapshot publish from succeeding), the workflow can
 be temporarily disabled by removing `staging` from the `on.push.branches`
 list. This stops canary publishes without affecting the stable path.
 
-don't disable the stable job unless absolutely necessary—a disabled
+Don't disable the stable job unless absolutely necessary; a disabled
 stable job means merges to `main` don't produce npm releases.
 
 ## When to roll back a stable release
@@ -171,7 +171,7 @@ Then ship a new version (1.2.2 or 1.3.0 depending on the nature of the
 regression) that fixes the issue. The deprecated version stays on npm
 but is skipped by `npm install` unless explicitly pinned.
 
-For very serious incidents (for example,security vulnerability), follow the
+For very serious incidents (for example, security vulnerability), follow the
 process in `SECURITY.md` at the repository root. Coordinate with the
 security contact before any public disclosure.
 

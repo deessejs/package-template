@@ -1,4 +1,4 @@
-# Release Process—Overview
+# Release Process, Overview
 
 <!-- dummy edit for verification -->
 
@@ -42,7 +42,7 @@ question hard to answer. With two branches, the question is localized:
 - Every PR merged on `staging` produces a tagged, installable canary artifact
   within minutes. Smoke tests, contract tests, and downstream consumers can
   pin `@canary` to validate integrations.
-- Promotion to `main` is a deliberate human action—opening and merging the
+- Promotion to `main` is a deliberate human action, opening and merging the
   `staging → main` PR. That merge publishes the same artifacts under
   `@latest`, with the same Changesets having been consumed on `main` for a
   real semver bump.
@@ -60,7 +60,7 @@ not the job, so a single trusted-publisher entry covers both publish paths.
 
 ```
 push to staging  → publish-canary  job runs (changeset version --snapshot canary + publish --tag canary)
-push to main     → publish-stable  job runs (changesets/action@v2—version + publish)
+push to main     → publish-stable  job runs (changesets/action@v2, version + publish)
 workflow_dispatch with dist-tag=canary → publish-canary job runs manually
 workflow_dispatch with dist-tag=latest → publish-stable job runs manually
 ```
@@ -95,17 +95,17 @@ and Trusted Publishing docs when you cut a release or onboard a new package.
 
 ## Glossary
 
-- **Canary**—A pre-release build published to the npm dist-tag `canary`.
+- **Canary**, A pre-release build published to the npm dist-tag `canary`.
   Identified by a version like `1.2.1-canary.a1b2c3d` (tag + 7-char commit SHA).
-- **Stable**—A production release published to the npm dist-tag `latest`.
+- **Stable**, A production release published to the npm dist-tag `latest`.
   Identified by a plain semver version like `1.2.1`.
-- **Dist-tag**—A pointer on the npm registry that maps a label (`canary`,
+- **Dist-tag**, A pointer on the npm registry that maps a label (`canary`,
   `latest`, `next`, …) to a specific version. `npm install pkg@canary`
   resolves through this mapping.
-- **Snapshot release**—A Changesets mode (`changeset version --snapshot <tag>`)
+- **Snapshot release**, A Changesets mode (`changeset version --snapshot <tag>`)
   that produces a pre-release version without consuming the changeset files.
   Used for the canary path.
-- **Trusted Publishing**—npm's OIDC-based authentication mechanism for CI.
+- **Trusted Publishing**, npm's OIDC-based authentication mechanism for CI.
   Replaces `NPM_TOKEN` secrets.
-- **OIDC**—OpenID Connect. The protocol GitHub Actions uses to mint
+- **OIDC**, OpenID Connect. The protocol GitHub Actions uses to mint
   short-lived identity tokens that npm validates before publishing.

@@ -1,4 +1,4 @@
-# Trusted Publishing—one-time setup
+# Trusted Publishing, one-time setup
 
 ## What Trusted Publishing gives us
 
@@ -15,7 +15,7 @@ duration of a single publish job. Two practical benefits:
 The trade-off is operational: npm requires each package to have **exactly
 one** trusted publisher configured, and adding a second one overwrites the
 first. This is why both branches in our flow publish through the same
-workflow file—see `overview.md` for the rationale.
+workflow file; see `overview.md` for the rationale.
 
 ## The single trusted publisher
 
@@ -37,7 +37,7 @@ in the same file, one trusted publisher entry covers both publish paths.
 For each publishable package in the monorepo:
 
 1. **npm ≥ 11.5.1** on the publish job. GitHub-hosted runners ship with
-   npm 10—the workflow includes an explicit `npm install -g npm@latest`
+   npm 10; the workflow includes an explicit `npm install -g npm@latest`
    step before publish to guarantee the minimum version.
 
 2. **Node ≥ 22.14** on the publish job. Pinned in
@@ -80,7 +80,7 @@ npmjs.com must be updated:
 
 If this step is skipped, the publish still succeeds (OIDC authenticates the
 GitHub workflow against the repository), but **provenance is missing or
-broken**—the tarball on npm lacks the green provenance badge. This is
+broken**; the tarball on npm lacks the green provenance badge. This is
 silent and easy to miss.
 
 ## Required conditions for OIDC to succeed
@@ -90,14 +90,14 @@ For the publish job to authenticate via OIDC, **all** of these must hold:
 - `id-token: write` is declared on the job.
 - `actions/setup-node@v6` (or later) is used with `registry-url: 'https://registry.npmjs.org'`.
 - The job is running on a GitHub-hosted runner. **Self-hosted runners
-  can't mint OIDC tokens for npm Trusted Publishing**—this is enforced
+  can't mint OIDC tokens for npm Trusted Publishing**; this is enforced
   by npm, not by GitHub.
 - The job is running Node ≥ 22.14 with npm ≥ 11.5.1.
 - The trusted publisher entry on npmjs.com matches the running workflow's
   filename and repository.
 
 If any of these fails, the publish fails with a generic `ENEEDAUTH` or
-`Forbidden` message. There is no "your OIDC token expired" diagnostic—
+`Forbidden` message. There is no "your OIDC token expired" diagnostic;
 npm intentionally returns the same error for all OIDC failures to avoid
 leaking auth state.
 
@@ -110,9 +110,9 @@ OIDC. This is silent: the publish succeeds, but no provenance is generated
 because provenance is an OIDC-only feature.
 
 The workflow doesn't set `NODE_AUTH_TOKEN` anywhere. If a future
-contributor adds a step that does (for example,to install from a private registry),
-it must scope `NODE_AUTH_TOKEN` to the install step only and unset it
-before publish.
+contributor adds a step that does (for example, to install from a private
+registry), it must scope `NODE_AUTH_TOKEN` to the install step only and
+unset it before publish.
 
 ### Wrong workflow filename
 
@@ -131,7 +131,7 @@ must be updated.
 
 Trusted Publishing checks the workflow's filename and repository, not its
 trigger. A `pull_request` event against `main` will mint a valid OIDC
-token if the workflow's filename matches—but the publish itself will
+token if the workflow's filename matches, but the publish itself will
 fail because `GITHUB_TOKEN` can't push to the protected `main` branch
 from a fork PR. The standard solution is to publish from `push` events
 (after merge), not from `pull_request` events.

@@ -28,9 +28,9 @@ secret is required.
 
 ## See also
 
-- [`CLAUDE.md`](../../../CLAUDE.md)—branching strategy and contributor
+- [`CLAUDE.md`](../../../CLAUDE.md): branching strategy and contributor
   guidelines.
-- [`CONTRIBUTING.md`](../../../CONTRIBUTING.md)—workflow conventions.
-- [Changesets documentation](https://changesets.dev)—versioning tool.
-- [npm Trusted Publishers](https://docs.npmjs.com/trusted-publishers/)—
+- [`CONTRIBUTING.md`](../../../CONTRIBUTING.md): workflow conventions.
+- [Changesets documentation](https://changesets.dev): versioning tool.
+- [npm Trusted Publishers](https://docs.npmjs.com/trusted-publishers/).
   OIDC authentication mechanism.
