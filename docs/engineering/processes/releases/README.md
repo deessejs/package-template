@@ -34,29 +34,37 @@ and ship directly to `@latest`.
 
 ```mermaid
 flowchart LR
-  dev[dev<br/>day-to-day work]:::devBranch
-  staging[staging<br/>publishes @canary]:::stagingBranch
-  main[main<br/>publishes @latest]:::mainBranch
-  hotfix[hotfix/&lt;name&gt;<br/>off main]:::hotfixBranch
-  npmCanary[(npm<br/>dist-tag: canary)]:::npmTag
-  npmLatest[(npm<br/>dist-tag: latest)]:::npmTag
-  npmCanaryHot[(npm<br/>dist-tag: hotfix<br/>validation only)]:::npmTag
+  subgraph Branches["Git branches"]
+    direction TB
+    dev[dev<br/>day-to-day work]:::dev
+    staging[staging<br/>validation]:::staging
+    main[main<br/>production]:::main
+    hotfix["hotfix/&lt;name&gt;<br/>off main"]:::hotfix
+  end
 
-  dev -- "PR merge" --> staging
-  staging -- "auto-publish<br/>snapshot mode" --> npmCanary
-  staging -- "PR: staging → main<br/>after canary validated" --> main
-  main -- "auto-publish<br/>changesets/action@v2" --> npmLatest
+  subgraph NPM["npm registry"]
+    direction TB
+    canaryTag[("@canary<br/>1.2.1-canary.&lt;sha&gt;")]:::canary
+    latestTag[("@latest<br/>1.2.1")]:::latest
+    hotfixTag[("@hotfix<br/>1.2.2-hotfix.&lt;sha&gt;<br/>validation only")]:::canary
+  end
 
-  main -. "branch off<br/>for CVE" .-> hotfix
-  hotfix -- "PR merge to main<br/>patch bump<br/>ship to @latest" --> main
-  hotfix -. "optional validation<br/>snapshot --snapshot hotfix" .-> npmCanaryHot
-  hotfix -- "forward-merge<br/>after hotfix ships" --> staging
+  dev -->|PR merge| staging
+  staging -->|snapshot mode<br/>auto-publish| canaryTag
+  staging ==>|"PR: staging → main<br/>after canary validated"| main
+  main -->|changesets/action@v2<br/>auto-publish| latestTag
 
-  classDef devBranch fill:#e8f4f8,stroke:#4a90c2,color:#000
-  classDef stagingBranch fill:#fff4e6,stroke:#d68a3c,color:#000
-  classDef mainBranch fill:#e6f4ea,stroke:#3c8c5a,color:#000
-  classDef hotfixBranch fill:#fce8e6,stroke:#c2453c,color:#000
-  classDef npmTag fill:#f3e8fc,stroke:#7a4ca8,color:#000
+  main -.->|branch off for CVE| hotfix
+  hotfix ==>|"PR merge to main<br/>patch bump"| main
+  hotfix -.->|snapshot hotfix<br/>optional validation| hotfixTag
+  hotfix -->|forward-merge<br/>see back-merge.md| staging
+
+  classDef dev fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef staging fill:#fed7aa,stroke:#ea580c,color:#7c2d12
+  classDef main fill:#bbf7d0,stroke:#16a34a,color:#14532d
+  classDef hotfix fill:#fecaca,stroke:#dc2626,color:#7f1d1d
+  classDef canary fill:#ede9fe,stroke:#7c3aed,color:#4c1d95
+  classDef latest fill:#dcfce7,stroke:#16a34a,color:#14532d
 ```
 
 Both publish paths use npm Trusted Publishing (OIDC). No `NPM_TOKEN`
