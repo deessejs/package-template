@@ -93,9 +93,9 @@ tracker at the time of the `2.0.0` release.
 
 ## Cross-references
 
-- [Stable releases on `main`](./stable-on-main.md): how a `minor` or
+- [Stable releases on `main`](../flows/stable-on-main.md): how a `minor` or
   `major` release is shipped.
-- [Hotfix on `main`](./hotfix-on-main.md): when a security fix
+- [Hotfix on `main`](../flows/hotfix-on-main.md): when a security fix
   overrides the normal versioning flow.
 - [Rollback](./rollback.md): how to mark a published version as
   deprecated or unsafe.

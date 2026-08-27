@@ -8,8 +8,8 @@ procedure: deprecate (preferred) versus unpublish (last resort), and
 the operational steps for each.
 
 This document is the operational playbook referenced from
-[`incident-response.md`](./incident-response.md) and
-[`hotfix-on-main.md`](./hotfix-on-main.md).
+[`incident-response.md`](../channels/incident-response.md) and
+[`hotfix-on-main.md`](../flows/hotfix-on-main.md).
 
 ## Decision: Deprecate, don't unpublish
 
@@ -90,8 +90,8 @@ release that supersedes the bad one. The new release goes through the
 normal release flow:
 
 1. Land a fix on `dev` or on a `hotfix/*` branch off `main`.
-2. If a hotfix: follow [`hotfix-on-main.md`](./hotfix-on-main.md) and
-   the back-merge procedure in [`back-merge.md`](./back-merge.md).
+2. If a hotfix: follow [`hotfix-on-main.md`](../flows/hotfix-on-main.md) and
+   the back-merge procedure in [`back-merge.md`](../flows/back-merge.md).
 3. If a regular fix: follow the normal `staging → main` promotion.
 4. The new version (`1.2.2`) is the one consumers should upgrade to.
 

@@ -44,7 +44,7 @@ the implementation.
   via `CODEOWNERS`.
 - PRs against `main` require **one reviewer** from `@deessejs/engineering`.
 - PRs against `hotfix/*` follow the rules in
-  [`hotfix-on-main.md`](./hotfix-on-main.md): single-reviewer fast path
+  [`hotfix-on-main.md`](../flows/hotfix-on-main.md): single-reviewer fast path
   is sufficient when the reviewer is on the release engineering or
   security team.
 
@@ -80,7 +80,7 @@ for new contributors. To enable signing locally, see
 
 `staging` and `main` reject force-pushes and branch deletion via
 branch protection. `dev` allows both. `hotfix/*` is deleted after the
-back-merge completes (see [`back-merge.md`](./back-merge.md)).
+back-merge completes (see [`back-merge.md`](../flows/back-merge.md)).
 
 ## How to update this document
 

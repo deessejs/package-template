@@ -155,7 +155,7 @@ does not. Three mitigations:
    delete-on-fail.
 3. **Asymmetric cleanup** is a separate concern: if `publish-stable`
    succeeds but is later rolled back via `npm deprecate` (see
-   [`rollback.md`](./rollback.md)), the GitHub Packages copy is
+   [`rollback.md`](../policies/rollback.md)), the GitHub Packages copy is
    not deprecated. A future `publish-gh-packages` will republish
    the new version, leaving the deprecated one visible on GitHub
    Packages until manually removed.

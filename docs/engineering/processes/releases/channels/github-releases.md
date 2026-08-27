@@ -9,8 +9,8 @@ publishes produce a GitHub Release, and how to configure
 `changesets/action@v2` to generate them.
 
 Cross-references:
-[`stable-on-main.md`](./stable-on-main.md) describes the npm side of the
-stable publish; [`hotfix-on-main.md`](./hotfix-on-main.md) describes
+[`stable-on-main.md`](../flows/stable-on-main.md) describes the npm side of the
+stable publish; [`hotfix-on-main.md`](../flows/hotfix-on-main.md) describes
 the hotfix flow.
 
 ## Which channels produce a GitHub Release
@@ -61,7 +61,7 @@ are pushed automatically (`push-git-tags` defaults to `true` when
 `create-github-releases` is `true`).
 
 For the hotfix flow, the same workflow file is reused
-(see [`hotfix-on-main.md`](./hotfix-on-main.md)). The same
+(see [`hotfix-on-main.md`](../flows/hotfix-on-main.md)). The same
 `create-github-releases: true` setting applies; the action does not
 distinguish between stable and hotfix promotions, both look like
 "merge to `main`" events.
