@@ -13,8 +13,8 @@ against a stated policy.
 | Branch     | Who can push                    | Who can merge PRs                 | Notes                                  |
 | ---------- | ------------------------------- | --------------------------------- | -------------------------------------- |
 | `dev`      | Any contributor                 | Any contributor                   | Day-to-day work; unprotected.          |
-| `staging`  | None (PR only)                  | Release engineer                  | Auto-publishes `@canary`.              |
-| `main`     | None (PR only)                  | Release engineer                  | Auto-publishes `@latest`.              |
+| `staging`  | None (PR only)                  | Release engineer                  | auto publishes `@canary`.              |
+| `main`     | None (PR only)                  | Release engineer                  | auto publishes `@latest`.              |
 | `hotfix/*` | Release engineer, security team | Release engineer or security team | Short-lived; deleted after back-merge. |
 
 `dev` is the only branch that accepts direct pushes. `staging` and
@@ -71,8 +71,8 @@ security team is the fallback.
 
 ## Signed commits
 
-Commits to `staging` and `main` should be signed. This is not
-currently enforced by branch protection; it is a recommended practice
+Commits to `staging` and `main` should be signed. This isn't
+currently enforced by branch protection; it's a recommended practice
 for new contributors. To enable signing locally, see
 [GitHub: About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
 

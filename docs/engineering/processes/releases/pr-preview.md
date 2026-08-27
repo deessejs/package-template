@@ -71,7 +71,7 @@ registries. `@canary` is a dist-tag on npmjs.com; the preview is a
 tarball on pkg.pr.new. They serve different audiences (PR reviewers
 vs. internal validation) and have different lifetimes.
 
-A PR on `main` is unusual in this repo because contributors should not
+A PR on `main` is unusual in this repo because contributors shouldn't
 push directly to `main`. If one does, the PR still gets a preview
 tarball, and after merge the canary/stable job on `main` runs to
 publish to `@latest`.
@@ -84,11 +84,11 @@ hotfix publish to `@latest` happens only after the PR merges.
 
 Three reasons:
 
-- **No secrets.** pkg.pr.new is a public service that does not require
+- **No secrets.** pkg.pr.new is a public service that doesn't require
   npm Trusted Publishing configuration. The `preview.yml` workflow has
   no `id-token: write` and no NPM_TOKEN.
 - **No npm registry pollution.** Preview tarballs never reach npmjs.com,
-  so `@canary` / `@latest` are not cluttered with intermediate builds.
+  so `@canary` / `@latest` aren't cluttered with intermediate builds.
 - **Per-commit granularity.** Every PR commit gets its own tarball
   without consuming Changesets or bumping versions.
 
@@ -100,14 +100,14 @@ are unaffected because they use npm directly.
 
 ### pkg.pr.new is unreachable
 
-The workflow fails with a network or 5xx error. The PR comment is not
+The workflow fails with a network or 5xx error. The PR comment isn't
 posted, but the canary/stable/hotfix flows continue to work on merge.
 Downstream consumers who pinned to a preview tarball see no impact
 until they try to install again.
 
-### pkg-pr-new GitHub App is not installed
+### pkg-pr-new GitHub App isn't installed
 
-The tarball is still published. The PR comment is not posted. Reviewers
+The tarball is still published. The PR comment isn't posted. Reviewers
 have to look at the workflow logs or check the pkg.pr.new dashboard to
 find the install command. This is documented as accepted behaviour in
 the existing `preview.yml`.
@@ -116,7 +116,7 @@ the existing `preview.yml`.
 
 The workflow fails at the `build` step before reaching the publish step.
 No preview tarball is produced. This is the same failure mode as any
-other CI build failure: the PR cannot be merged until the build is
+other CI build failure: the PR can't be merged until the build is
 green.
 
 ## When to skip the preview
@@ -133,13 +133,13 @@ on:
 ```
 
 The path filter would exclude PRs that only touch docs or non-published
-files. This is not currently configured; the workflow runs on every PR.
+files. This isn't currently configured; the workflow runs on every PR.
 Adding such a filter is a separate change from this document's scope.
 
 ## Decisions
 
 The following operational choices have been made for this repository.
-They are documented here so they survive across maintainer rotations.
+they're documented here so they survive across maintainer rotations.
 
 1. **Path filtering.** None. The preview workflow runs on every PR.
    pkg.pr.new publishes are cheap, and the noise in the workflow list
@@ -150,9 +150,9 @@ They are documented here so they survive across maintainer rotations.
 3. **Notifications.** None beyond the pkg-pr-new PR comment.
    Downstream consumers watch the PRs they care about directly. Adding
    Slack or Discord notifications would require an external service
-   integration that is not currently in scope.
+   integration that isn't currently in scope.
 
 These decisions are operational defaults. They can be revisited if the
 team finds them insufficient in practice; the changes are localized to
-the `preview.yml` workflow file and do not affect the rest of the
+the `preview.yml` workflow file and don't affect the rest of the
 release process.

@@ -45,7 +45,7 @@ branch topology.
 
 ### Prerequisites
 
-- The `hotfix/<name>` branch still exists. It was not deleted when the PR
+- The `hotfix/<name>` branch still exists. It wasn't deleted when the PR
   merged to `main`.
 - You have push access to `staging`.
 
@@ -93,7 +93,7 @@ explicitly cites the hotfix PR.
 
 `--no-ff` keeps the merge as a merge commit rather than fast-forwarding.
 This preserves the branch identity in the history graph, which makes
-`git log --first-parent` and `git log --graph` output meaningful. It is
+`git log --first-parent` and `git log --graph` output meaningful. it's
 also what the GitFlow pattern recommends.
 
 ## Approach B: cherry-pick (fallback)
@@ -170,7 +170,7 @@ Conflicts will typically appear on three files:
 
 3. **`.changeset/<name>.md`**: `deleted by them` conflict. The
    upstream commit deletes the file (it was consumed on main), but the
-   file still exists on staging (snapshot mode did not commit it).
+   file still exists on staging (snapshot mode didn't commit it).
 
    Resolution: **keep the file on staging**. Take `staging`'s version.
 
@@ -247,13 +247,13 @@ pushing.
 If staging has evolved a file the hotfix also touches, the cherry-pick
 produces a real conflict that needs human resolution. This is the
 ~25% case referenced in the research. Resolve by combining the changes
-from both sides; do not blindly take `--ours` or `--theirs` for source
+from both sides; don't blindly take `--ours` or `--theirs` for source
 files.
 
 ### Changeset file deleted on staging by accident
 
 If `--theirs` was accepted on the `.changeset/` conflict, the file is
-gone from staging. The next regular release will not mention the hotfix
+gone from staging. The next regular release won't mention the hotfix
 in CHANGELOG. Recovery: re-create the changeset file on staging by
 copying it from the hotfix PR's commit, then continue the cherry-pick.
 

@@ -11,7 +11,7 @@ This document is the operational playbook referenced from
 [`incident-response.md`](./incident-response.md) and
 [`hotfix-on-main.md`](./hotfix-on-main.md).
 
-## Decision: deprecate, do not unpublish
+## Decision: deprecate, don't unpublish
 
 The standard rollback action is to **deprecate** the bad version, not
 to **unpublish** it. Unpublishing is heavily restricted by npm:
@@ -19,7 +19,7 @@ to **unpublish** it. Unpublishing is heavily restricted by npm:
 - Versions published less than 72 hours ago can be unpublished by the
   publisher, but only if no other package depends on them and they
   have fewer than 300 weekly downloads.
-- Versions older than 72 hours **cannot be unpublished** except by
+- Versions older than 72 hours **can't be unpublished** except by
   npm support, who only intervene in extreme cases.
 
 The full policy is at
@@ -30,7 +30,7 @@ version. They get install errors immediately, with no migration path.
 
 Deprecating keeps the version on npm but marks it as unsafe. Consumers
 see a warning on install and `npm install @latest` skips it. Consumers
-who pinned explicitly are not blocked, but they see the warning.
+who pinned explicitly aren't blocked, but they see the warning.
 
 ## Deprecate a single version
 
@@ -53,7 +53,7 @@ The field should print the deprecation message.
 
 ## Deprecate a version range
 
-When multiple versions are affected (e.g. a security advisory covering
+When multiple versions are affected (for example,a security advisory covering
 several releases):
 
 ```bash

@@ -9,14 +9,14 @@ invoke the hotfix process and how it works.
 
 The companion documents (`canary-on-staging.md`, `stable-on-main.md`,
 `trusted-publishing-setup.md`, `incident-response.md`) describe the regular
-flow and its failure modes. This document only covers what is different when
+flow and its failure modes. This document only covers what's different when
 bypassing that flow.
 
 ## What "hotfix" means here
 
 A hotfix is a **patch-level** semver bump (`1.2.1` → `1.2.2`) that addresses a
 confirmed production bug or security CVE, and ships without the staging
-gate. Anything that needs a `minor` or `major` bump is not a hotfix; it is
+gate. Anything that needs a `minor` or `major` bump isn't a hotfix; it's
 a release that should still go through `staging → main`.
 
 This definition is deliberately strict. The cost of a hotfix is that the
@@ -32,13 +32,13 @@ All of the following must be true:
   **published security advisory** (or an actively exploited CVE).
 - The release engineer or security team authorizes bypassing staging.
 
-If any of these is not true, use the normal `staging → main` flow.
+If any of these isn't true, use the normal `staging → main` flow.
 
 ## Branching
 
 - Branch from `main`, not from `staging`. `staging` may contain unreleased
-  dev work that should not ship in a hotfix.
-- Convention: `hotfix/<ticket-or-short-desc>`, e.g. `hotfix/CVE-2024-1234`
+  dev work that shouldn't ship in a hotfix.
+- Convention: `hotfix/<ticket-or-short-desc>`, for example,`hotfix/CVE-2024-1234`
   or `hotfix/fix-token-revocation`.
 - Open a PR against `main`.
 - Label the PR `hotfix` so it can be filtered downstream.
@@ -59,7 +59,7 @@ affected package(s). Body format:
 ```
 
 The `[HOTFIX]` or `[SECURITY]` prefix is mandatory. It surfaces in the
-auto-generated CHANGELOG entry and makes grep-based filtering trivial for
+auto generated CHANGELOG entry and makes grep-based filtering trivial for
 post-mortems.
 
 When the PR merges to `main`, the changeset file is consumed by
@@ -68,7 +68,7 @@ When the PR merges to `main`, the changeset file is consumed by
 ## How the hotfix ships
 
 The hotfix ships through the **existing** release workflow file
-(`.github/workflows/release.yml`). It does not need a separate workflow
+(`.github/workflows/release.yml`). It doesn't need a separate workflow
 file because npm Trusted Publishing allows only one trusted publisher per
 package, and that entry already points at `release.yml`.
 
@@ -76,7 +76,7 @@ Two-phase publication:
 
 1. **Validation phase** (optional but recommended): a snapshot-style canary
    publish to the `@hotfix` npm dist-tag, produced from the `hotfix/*`
-   branch. The artifact is ephemeral; no commit is pushed, no changeset
+   branch. The artifact is ephemeral; no commit's pushed, no changeset
    is consumed. The release engineer smoke-tests the artifact.
 
 2. **Promotion phase**: merge the hotfix PR into `main`. The existing
@@ -100,7 +100,7 @@ After the hotfix ships to `@latest`, do these three things in order.
 ### 1. Back-merge the fix to `staging`
 
 The fix code must reach `staging` so that the next regular release contains
-it, and so that the next canary on `staging` does not compute a version
+it, and so that the next canary on `staging` doesn't compute a version
 that collides with the hotfix already on npm.
 
 The canonical approach is a forward-merge (`git merge --no-ff
@@ -109,7 +109,7 @@ is a fallback when the branch has been deleted or staging has churn that
 makes forward-merging impractical.
 
 The full procedure, conflict-resolution rules, and audit checklist are in
-[`back-merge.md`](./back-merge.md). Do not cherry-pick the changeset file
+[`back-merge.md`](./back-merge.md). don't cherry-pick the changeset file
 under any approach; it has already been consumed on `main` and would
 double-bump if reintroduced.
 
@@ -131,7 +131,7 @@ skip past the hotfix. Acceptable but pollutes the CHANGELOG.
   contact before any public disclosure.
 - `@latest` consumers get the fix on their next install; a notification is
   recommended for security fixes but not required.
-- `@canary` consumers do not need to be notified.
+- `@canary` consumers don't need to be notified.
 
 ## Failure modes
 
@@ -140,9 +140,9 @@ skip past the hotfix. Acceptable but pollutes the CHANGELOG.
 `changeset version` ran on the hotfix branch, but `changeset publish`
 failed (OIDC misconfig, npm outage, network). State of the world:
 
-- The "Version Packages" commit is on `main` with the new version in
+- The "Version Packages" commit's on `main` with the new version in
   `package.json`.
-- The new version is not on npm.
+- The new version isn't on npm.
 - `latest` still points to the previous version.
 
 Re-run the workflow. Changesets will detect that `package.json` already
@@ -161,12 +161,12 @@ main` flow as a regular release.
 If a regular staging release ships a newer version before the hotfix is
 published (rare race), the hotfix PR must be rebased on the new `main`
 before merging. The hotfix changeset must be updated to reflect the new
-base version. Changesets will not auto-correct this.
+base version. Changesets won't auto correct this.
 
 ## Decisions
 
 The following operational choices have been made for this repository.
-They are documented here so they survive across maintainer rotations.
+they're documented here so they survive across maintainer rotations.
 
 1. **Authorization.** A single release engineer authorizes a hotfix. The
    release engineer is identified in `CODEOWNERS` for the release-process
@@ -177,7 +177,7 @@ They are documented here so they survive across maintainer rotations.
    verification is reserved for releases with larger blast radius.
 3. **Release-line policy.** Single active line for now. When `2.x`
    ships, `1.x` continues receiving security fixes for a grace period
-   defined elsewhere. This document assumes a single line and does not
+   defined elsewhere. This document assumes a single line and doesn't
    describe the backport procedure; revisit when `2.x` is cut.
 4. **CODEOWNERS review.** Single-reviewer approval is sufficient for
    `hotfix/*` PRs. The reviewer must be the release engineer or a
