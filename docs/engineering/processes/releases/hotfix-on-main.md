@@ -163,21 +163,27 @@ published (rare race), the hotfix PR must be rebased on the new `main`
 before merging. The hotfix changeset must be updated to reflect the new
 base version. Changesets will not auto-correct this.
 
-## Open questions
+## Decisions
 
-These are decisions the team should make and document elsewhere
-(CODEOWNERS, release-policies.md, SECURITY.md). The hotfix flow assumes
-they are answered.
+The following operational choices have been made for this repository.
+They are documented here so they survive across maintainer rotations.
 
-1. **Who can authorize a hotfix?** Single release engineer, security team,
-   or both?
-2. **What is the SLA on the validation phase?** "Best effort smoke test"
-   versus "full CI suite plus manual verification"?
-3. **Release-line policy.** When `2.x` ships, do security fixes get
-   backported to `1.x`? If so, what is the backport trigger and SLA?
-4. **CODEOWNERS fast path.** Does the team accept a single-reviewer
-   approval for `hotfix/*` PRs, or is two-reviewer still required?
+1. **Authorization.** A single release engineer authorizes a hotfix. The
+   release engineer is identified in `CODEOWNERS` for the release-process
+   docs.
+2. **Validation SLA.** Best-effort smoke test. The release engineer
+   installs the canary artifact in a sandbox or reproduction environment,
+   verifies the fix is present, then merges. Full CI plus manual
+   verification is reserved for releases with larger blast radius.
+3. **Release-line policy.** Single active line for now. When `2.x`
+   ships, `1.x` continues receiving security fixes for a grace period
+   defined elsewhere. This document assumes a single line and does not
+   describe the backport procedure; revisit when `2.x` is cut.
+4. **CODEOWNERS review.** Single-reviewer approval is sufficient for
+   `hotfix/*` PRs. The reviewer must be the release engineer or a
+   security team member. Two-reviewer approval is still required for
+   regular `staging → main` promotions.
 
-The answers to these questions shape the operational reality of this
-document. Until they are answered, treat this document as a design
-specification, not an SOP.
+These decisions are operational defaults. The release engineer can
+deviate from them with justification documented in the hotfix PR's merge
+commit message.

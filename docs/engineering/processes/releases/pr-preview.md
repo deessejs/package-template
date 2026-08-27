@@ -136,20 +136,23 @@ The path filter would exclude PRs that only touch docs or non-published
 files. This is not currently configured; the workflow runs on every PR.
 Adding such a filter is a separate change from this document's scope.
 
-## Open questions
+## Decisions
 
-These are decisions the team should make and document elsewhere:
+The following operational choices have been made for this repository.
+They are documented here so they survive across maintainer rotations.
 
-1. **Path filtering.** Should the preview workflow skip PRs that touch
-   only docs, README, or `.github/workflows/`? Running on every PR is
-   cheap but produces noise in the workflow list.
-2. **Retention.** pkg.pr.new tarballs are kept indefinitely by default.
-   Should the team configure a retention policy? pkg.pr.new does not
-   expose this directly; tarball cleanup is the maintainer's
-   responsibility.
-3. **Notification channels.** Beyond the pkg-pr-new PR comment, should
-   the team be notified on Slack/Discord when a preview is published?
-   Useful for downstream teams that consume previews regularly.
+1. **Path filtering.** None. The preview workflow runs on every PR.
+   pkg.pr.new publishes are cheap, and the noise in the workflow list
+   is acceptable.
+2. **Retention.** Tarballs are kept indefinitely. Matches pkg.pr.new's
+   default behaviour. Downstream consumers who pin to a preview tarball
+   never see a 404.
+3. **Notifications.** None beyond the pkg-pr-new PR comment.
+   Downstream consumers watch the PRs they care about directly. Adding
+   Slack or Discord notifications would require an external service
+   integration that is not currently in scope.
 
-Until these are answered, treat this document as a description of the
-existing workflow, not an SOP.
+These decisions are operational defaults. They can be revisited if the
+team finds them insufficient in practice; the changes are localized to
+the `preview.yml` workflow file and do not affect the rest of the
+release process.
