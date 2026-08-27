@@ -90,7 +90,7 @@ intent explicit and survives any future action-version drift.
 
 ## Why this job doesn't use `changesets/action@v2`
 
-`changesets/action@v2` creates a "Version Packages" PR after versioning —
+`changesets/action@v2` creates a "Version Packages" PR after versioning—
 that's the wrong behaviour on `staging`. Snapshot mode's entire point is that
 the result is ephemeral; we want to publish, not commit a version PR.
 
@@ -117,7 +117,7 @@ requires a new commit.
 ## Promotion to `main`
 
 When the release engineer is satisfied with the canary artifact, they open a
-PR from `staging` into `main`. The `publish-stable` job runs on that merge —
+PR from `staging` into `main`. The `publish-stable` job runs on that merge—
 see `stable-on-main.md`. The same changeset files that produced
 `1.2.1-canary.a1b2c3d` are now consumed for the real `1.2.1` stable release.
 

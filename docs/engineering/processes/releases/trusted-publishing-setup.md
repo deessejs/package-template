@@ -97,7 +97,7 @@ For the publish job to authenticate via OIDC, **all** of these must hold:
   filename and repository.
 
 If any of these fails, the publish fails with a generic `ENEEDAUTH` or
-`Forbidden` message. There is no "your OIDC token expired" diagnostic —
+`Forbidden` message. There is no "your OIDC token expired" diagnostic—
 npm intentionally returns the same error for all OIDC failures to avoid
 leaking auth state.
 
@@ -109,7 +109,7 @@ If a step earlier in the job sets `NODE_AUTH_TOKEN`, npm uses it instead of
 OIDC. This is silent: the publish succeeds, but no provenance is generated
 because provenance is an OIDC-only feature.
 
-The workflow does **not** set `NODE_AUTH_TOKEN` anywhere. If a future
+The workflow doesn't set `NODE_AUTH_TOKEN` anywhere. If a future
 contributor adds a step that does (for example,to install from a private registry),
 it must scope `NODE_AUTH_TOKEN` to the install step only and unset it
 before publish.
