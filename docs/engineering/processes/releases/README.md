@@ -47,15 +47,32 @@ flowchart LR
     canaryTag[("@canary<br/>1.2.1-canary.&lt;sha&gt;")]:::canary
     latestTag[("@latest<br/>1.2.1")]:::latest
     hotfixTag[("@hotfix<br/>1.2.2-hotfix.&lt;sha&gt;<br/>validation only")]:::canary
+    previewTag[("pkg.pr.new<br/>per-PR preview<br/>tarball")]:::preview
   end
 
-  dev -->|PR merge| staging
+  subgraph PRPreview["PR preview (per branch)"]
+    direction TB
+    prToStaging[PR: dev to staging]:::prNode
+    prToMain[PR: staging to main]:::prNode
+    prHotfix[PR: hotfix to main]:::prNode
+  end
+
+  prToStaging -.->|pkg-pr-new<br/>per-PR tarball| previewTag
+  prToMain -.->|pkg-pr-new<br/>per-PR tarball| previewTag
+  prHotfix -.->|pkg-pr-new<br/>per-PR tarball| previewTag
+
+  prToStaging -->|merge| staging
+  prToMain -->|merge after<br/>canary validated| main
+  prHotfix -->|merge<br/>patch bump| main
+
+  dev -->|feature branch| prToStaging
+  staging -.->|feature branch| prToMain
+  main -.->|feature branch| prHotfix
+
   staging -->|snapshot mode<br/>auto-publish| canaryTag
-  staging -->|PR to main after<br/>canary validated| main
   main -->|changesets action v2<br/>auto-publish| latestTag
 
   main -.->|branch off for CVE| hotfix
-  hotfix -->|PR merge to main<br/>patch bump| main
   hotfix -.->|snapshot hotfix<br/>optional validation| hotfixTag
   hotfix -->|forward-merge<br/>see back-merge.md| staging
 
