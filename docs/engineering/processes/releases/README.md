@@ -30,6 +30,35 @@ This directory documents the release engineering process for the
 [`hotfix-on-main.md`](./hotfix-on-main.md). Hotfixes are patch-level only
 and ship directly to `@latest`.
 
+## Release flow diagram
+
+```mermaid
+flowchart LR
+  dev[dev<br/>day-to-day work]:::devBranch
+  staging[staging<br/>publishes @canary]:::stagingBranch
+  main[main<br/>publishes @latest]:::mainBranch
+  hotfix[hotfix/&lt;name&gt;<br/>off main]:::hotfixBranch
+  npmCanary[(npm<br/>dist-tag: canary)]:::npmTag
+  npmLatest[(npm<br/>dist-tag: latest)]:::npmTag
+  npmCanaryHot[(npm<br/>dist-tag: hotfix<br/>validation only)]:::npmTag
+
+  dev -- "PR merge" --> staging
+  staging -- "auto-publish<br/>snapshot mode" --> npmCanary
+  staging -- "PR: staging → main<br/>after canary validated" --> main
+  main -- "auto-publish<br/>changesets/action@v2" --> npmLatest
+
+  main -. "branch off<br/>for CVE" .-> hotfix
+  hotfix -- "PR merge to main<br/>patch bump<br/>ship to @latest" --> main
+  hotfix -. "optional validation<br/>snapshot --snapshot hotfix" .-> npmCanaryHot
+  hotfix -- "forward-merge<br/>after hotfix ships" --> staging
+
+  classDef devBranch fill:#e8f4f8,stroke:#4a90c2,color:#000
+  classDef stagingBranch fill:#fff4e6,stroke:#d68a3c,color:#000
+  classDef mainBranch fill:#e6f4ea,stroke:#3c8c5a,color:#000
+  classDef hotfixBranch fill:#fce8e6,stroke:#c2453c,color:#000
+  classDef npmTag fill:#f3e8fc,stroke:#7a4ca8,color:#000
+```
+
 Both publish paths use npm Trusted Publishing (OIDC). No `NPM_TOKEN`
 secret is required.
 
