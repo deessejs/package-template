@@ -35,7 +35,7 @@ reach npm or GitHub Releases.
 The action creates a GitHub Release when its `create-github-releases`
 input is `true`. The Release body is generated automatically from:
 
-- The changeset(s) consumed in the version bump.
+- The changesets consumed in the version bump.
 - The commit log between the previous tag and the new tag.
 - The PRs linked to those commits, when accessible.
 
@@ -95,7 +95,7 @@ process.
 
 ## What doesn't need to change
 
-- `.github/release.yml` is **not required** for `changesets/action@v2`
+- `.github/release.yml` isn't required for `changesets/action@v2`
   to work. That file controls GitHub's auto generated release notes
   UI categorization (Breaking Changes / Features / Dependencies)
   based on PR labels. it's orthogonal to `changesets/action`.

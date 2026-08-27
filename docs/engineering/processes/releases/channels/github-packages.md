@@ -165,7 +165,7 @@ doesn't. Three mitigations:
 GitHub Packages doesn't enforce the "1 version per package tag"
 invariant that npm does. Multiple tarballs with the same version
 can coexist if the workflow is re-run after a failure. The
-`publish-gh-packages` job does **not** clean up old versions; if a
+`publish-gh-packages` job doesn't clean up old versions; if a
 re-run needs to publish a missing version, the cleanup is manual
 through the GitHub Packages UI.
 
