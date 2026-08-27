@@ -10,6 +10,6 @@
   "ignore": ["web"],
   "snapshot": {
     "useCalculatedVersion": true,
-    "prereleaseTemplate": "{tag}.{commit-short}"
+    "prereleaseTemplate": "{tag}"
   }
 }
