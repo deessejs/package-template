@@ -27,8 +27,9 @@ content reaches `main`.
 Snapshot mode (`--snapshot canary`) runs the same versioning logic but treats
 the result as ephemeral:
 
-- The package.json version becomes `1.2.1-canary.<sha>` (or whatever the
-  configured template produces).
+- The package.json version becomes `<next-version>-canary`. Today this is
+  typically a `minor` bump over the last stable (for example, `1.0.0`
+  yields `1.1.0-canary`).
 - The changeset files are still consumed on the runner's filesystem.
 - **Nothing is committed.** The runner exits with a modified working tree
   that no one ever sees again.
@@ -44,36 +45,46 @@ Configured in `.changeset/config.json`:
 ```jsonc
 "snapshot": {
   "useCalculatedVersion": true,
-  "prereleaseTemplate": "{tag}.{commit-short}"
+  "prereleaseTemplate": "{tag}"
 }
 ```
 
-- `useCalculatedVersion: true`, snapshot versions follow the next semver
-  derived from current changesets, not `0.0.0-canary.<…>`. After a stable
-  `1.2.0`, the first canary is `1.2.1-canary.<sha>`, not `0.0.0-canary.<…>`.
-- `prereleaseTemplate: "{tag}.{commit-short}"`, produces
-  `1.2.1-canary.a1b2c3d` where `a1b2c3d` is the 7-character short SHA of the
-  triggering commit.
+- `useCalculatedVersion: true`: snapshot versions follow the next semver
+  derived from current changesets, not `0.0.0-canary.<…>`. After a
+  stable `1.2.0`, the first canary is `1.3.0-canary` (or `1.2.1-canary`,
+  depending on what the changesets say), not `0.0.0-canary.<…>`.
+- `prereleaseTemplate: "{tag}"`: produces versions like `1.3.0-canary`
+  where `1.3.0` is the computed next semver.
 
-The 7-character short SHA matches `git log --oneline` output and is short
-enough to read in an npm version column. Theoretical SHA collisions at this
-length are astronomically rare and are also semantically correct (two canaries
-with the same SHA represent the same logical change).
+This template does not embed the commit SHA in the canary version. Changesets
+in `--snapshot` mode does not substitute `{commit-short}` (that placeholder
+only works in `pre enter` pre-release mode). Without a SHA suffix:
+
+- Two canaries built from the same commit conflict at npm publish time
+  (npm refuses duplicate versions). This is acceptable: re-publishes of
+  the same commit are rare and a no-op anyway.
+- The SHA is recoverable from the GitHub Actions run provenance or from
+  the GitHub commit the run targeted, both of which npm records alongside
+  the published tarball.
 
 ## What the workflow actually does
 
 ```
 1. checkout@v4 with persist-credentials: false, fetch-depth: 0
 2. pnpm/action-setup@v6
-3. actions/setup-node@v6 (node-version: 22.14)
+3. actions/setup-node@v6 (node-version: '24.x')
 4. pnpm install --frozen-lockfile
-5. npm install -g npm@latest                 # Trusted Publishing needs npm ≥ 11.5.1
-6. pnpm --filter @scope/example build
-7. pnpm --filter @scope/example test:run
-8. pnpm changeset version --snapshot canary --no-git-tag
-9. pnpm changeset publish --tag canary --no-git-tag
+5. pnpm --filter @scope/example build
+6. pnpm --filter @scope/example test:run
+7. pnpm changeset version --snapshot canary
+8. pnpm changeset publish --tag canary --no-git-tag
    env: NPM_CONFIG_PROVENANCE=true
 ```
+
+Note: node-version `'24.x'` is required to get a recent enough npm that
+satisfies Trusted Publishing's minimum. Earlier requirements included a
+`npm install -g npm@latest` step; this is no longer needed because the
+default npm on the 24.x runner is recent enough.
 
 Step 5 is non-obvious. The default `ubuntu-latest` GitHub runner ships with
 npm 10.x. Trusted Publishing requires npm 11.5.1 or later. Without the
@@ -107,8 +118,8 @@ npm.
 
 ## Re-running a failed canary
 
-A re-run with the same commit produces the same version
-(`1.2.1-canary.a1b2c3d`). npm rejects republishing an existing version. This
+A re-run with the same commit produces the same canary version
+(`1.3.0-canary`). npm rejects republishing an existing version. This
 is acceptable: re-runs only succeed when the underlying issue was transient
 (network, npm registry hiccup) and the previous publish didn't actually
 land. If the publish did land but a downstream step failed, a new canary
@@ -119,10 +130,18 @@ requires a new commit.
 When the release engineer is satisfied with the canary artifact, they open a
 PR from `staging` into `main`. The `publish-stable` job runs on that merge;
 see `stable-on-main.md`. The same changeset files that produced
-`1.2.1-canary.a1b2c3d` are now consumed for the real `1.2.1` stable release.
+`1.3.0-canary` are now consumed for the real `1.3.0` stable release.
 
 The canary tag on npm is left in place. `npm install @scope/example@canary`
 continues to resolve to the most recent canary.
+
+## What happens without changesets
+
+If a push to `staging` happens with no `.changeset/*.md` files, the snapshot
+job still runs and publishes a canary version anyway. Changesets computes a
+bump from the current version (typically `minor` when nothing has changed
+on `main` since the last canary). This is rarely the desired behaviour;
+include a changeset in any PR that should produce a meaningful canary.
 
 ## Operational checklist (canary)
 
@@ -140,5 +159,5 @@ After merge:
 
 - [ ] The `publish-canary` job on the merge commit completes.
 - [ ] `npm view @scope/example dist-tags` shows `canary` pointing at
-      `1.2.1-canary.<sha>`.
+      `<next-version>-canary`.
 - [ ] Downstream consumers on `@canary` install successfully.
