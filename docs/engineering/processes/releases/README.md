@@ -14,6 +14,7 @@ This directory documents the release engineering process for the
 | [`incident-response.md`](./incident-response.md)               | On-call                             | When a release fails or a bad release ships.                                                 |
 | [`hotfix-on-main.md`](./hotfix-on-main.md)                     | Release engineers, security team    | When shipping a patch-level fix that bypasses staging for a CVE or production-impacting bug. |
 | [`back-merge.md`](./back-merge.md)                             | Release engineers                   | After a hotfix lands on `main`: bring the fix to `staging` without double-bumping.           |
+| [`pr-preview.md`](./pr-preview.md)                             | Anyone reviewing a PR               | When you want to install a build from a PR to review or smoke-test it before merge.          |
 
 ## Process summary
 
