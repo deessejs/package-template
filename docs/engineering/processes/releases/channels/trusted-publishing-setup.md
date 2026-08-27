@@ -15,7 +15,7 @@ duration of a single publish job. Two practical benefits:
 The trade-off is operational: npm requires each package to have **exactly
 one** trusted publisher configured, and adding a second one overwrites the
 first. This is why both branches in our flow publish through the same
-workflow file; see `overview.md` for the rationale.
+workflow file; see the README for the rationale.
 
 ## The single trusted publisher
 

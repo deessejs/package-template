@@ -8,7 +8,7 @@ recovering.
 
 The flow described here assumes the release workflow
 (`.github/workflows/release.yml`) is in place and the
-[release process overview](./overview.md) is already understood.
+[release process overview](./README.md) is already understood.
 
 ## Diagnostic entry points
 
