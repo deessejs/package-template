@@ -97,15 +97,21 @@ snapshot.
 
 After the hotfix ships to `@latest`, do these three things in order.
 
-### 1. Cherry-pick the fix to `staging`
+### 1. Back-merge the fix to `staging`
 
-Cherry-pick the **code commits** from the hotfix PR onto `staging`. Do
-**not** cherry-pick the changeset file; it has already been consumed on
-`main` and would double-bump if reintroduced.
+The fix code must reach `staging` so that the next regular release contains
+it, and so that the next canary on `staging` does not compute a version
+that collides with the hotfix already on npm.
 
-This is what keeps `staging`'s `package.json` aligned with `main`. Without
-it, the next canary on `staging` would compute a version that collides with
-the hotfix already on npm.
+The canonical approach is a forward-merge (`git merge --no-ff
+origin/hotfix/<name>`) when the hotfix branch is still alive. Cherry-pick
+is a fallback when the branch has been deleted or staging has churn that
+makes forward-merging impractical.
+
+The full procedure, conflict-resolution rules, and audit checklist are in
+[`back-merge.md`](./back-merge.md). Do not cherry-pick the changeset file
+under any approach; it has already been consumed on `main` and would
+double-bump if reintroduced.
 
 ### 2. Watch the next canary version
 

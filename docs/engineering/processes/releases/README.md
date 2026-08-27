@@ -13,6 +13,7 @@ This directory documents the release engineering process for the
 | [`trusted-publishing-setup.md`](./trusted-publishing-setup.md) | First-time setup, post-`pnpm setup` | When configuring npm Trusted Publishing.                                                     |
 | [`incident-response.md`](./incident-response.md)               | On-call                             | When a release fails or a bad release ships.                                                 |
 | [`hotfix-on-main.md`](./hotfix-on-main.md)                     | Release engineers, security team    | When shipping a patch-level fix that bypasses staging for a CVE or production-impacting bug. |
+| [`back-merge.md`](./back-merge.md)                             | Release engineers                   | After a hotfix lands on `main`: bring the fix to `staging` without double-bumping.           |
 
 ## Process summary
 
