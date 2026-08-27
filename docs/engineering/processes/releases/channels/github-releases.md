@@ -62,7 +62,7 @@ are pushed automatically (`push-git-tags` defaults to `true` when
 
 For the hotfix flow, the same workflow file is reused
 (see [`hotfix-on-main.md`](../flows/hotfix-on-main.md)). The same
-`create-github-releases: true` setting applies; the action does not
+`create-github-releases: true` setting applies; the action doesn't
 distinguish between stable and hotfix promotions, both look like
 "merge to `main`" events.
 
@@ -84,7 +84,7 @@ CHANGELOG.
 
 ## Provenance and attestation
 
-GitHub Releases are not the same as npm provenance. npm provenance
+GitHub Releases aren't the same as npm provenance. npm provenance
 attestation is a signed statement attached to the npm tarball via
 Trusted Publishing (OIDC), and is independent of any GitHub Release.
 
@@ -93,15 +93,15 @@ tarball was built; the GitHub Release tells them what changed and
 links to the PRs. Both should be present for a senior-level release
 process.
 
-## What does not need to change
+## What doesn't need to change
 
 - `.github/release.yml` is **not required** for `changesets/action@v2`
-  to work. That file controls GitHub's auto-generated release notes
+  to work. That file controls GitHub's auto generated release notes
   UI categorization (Breaking Changes / Features / Dependencies)
-  based on PR labels. It is orthogonal to `changesets/action`.
-- Branch protection on `main` does not need to be relaxed. The
+  based on PR labels. it's orthogonal to `changesets/action`.
+- Branch protection on `main` doesn't need to be relaxed. The
   action's `contents: write` permission is sufficient.
-- The npm version is not affected. The Release is a GitHub-side
+- The npm version isn't affected. The Release is a GitHub-side
   artifact; the npm tarball is what consumers install.
 
 ## When to disable GitHub Releases
@@ -114,9 +114,9 @@ release workflow still works; only the Release artifact is skipped.
 
 These are decisions the team should make and document elsewhere:
 
-1. **Auto-generated categories.** Should the project configure
+1. **auto generated categories.** Should the project configure
    `.github/release.yml` to categorize PRs by labels
-   (`breaking-change`, `feature`, `fix`)? It is independent of
+   (`breaking-change`, `feature`, `fix`)? it's independent of
    Changesets and can be added later without a workflow change.
 2. **Security advisory linkage.** Should hotfix Releases that address
    a CVE include a "Reported by" credit and a link to the GitHub
@@ -125,4 +125,4 @@ These are decisions the team should make and document elsewhere:
 3. **Pre-release versioning.** If the project ever ships a `2.0.0-rc.1`
    line, `changesets/action@v2` will create a Release automatically.
    That Release is fine to mark as a prerelease on the GitHub side,
-   but the action does not handle this; it would need a custom step.
+   but the action doesn't handle this; it would need a custom step.
