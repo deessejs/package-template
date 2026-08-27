@@ -12,14 +12,14 @@ Every push (PR merge) to `staging` triggers a canary publish:
 5. The changes for this push are now installable as
    `npm install @scope/example@canary`.
 
-The canary job is **read-only on git** — no commits, no pushes. This is the
+The canary job is **read-only on git**—no commits, no pushes. This is the
 key invariant that lets the same changeset files survive from `staging` all
 the way to `main`.
 
 ## Why snapshot mode
 
 Changesets normally consumes `.changeset/*.md` files when it versions
-packages. Once consumed, they cannot be replayed. This is fine for a single
+packages. Once consumed, they can't be replayed. This is fine for a single
 release branch but breaks the `staging → main` promotion: if the same
 changesets are consumed on `staging`, no version bump happens when the same
 content reaches `main`.
@@ -48,10 +48,10 @@ Configured in `.changeset/config.json`:
 }
 ```
 
-- `useCalculatedVersion: true` — snapshot versions follow the next semver
+- `useCalculatedVersion: true`—snapshot versions follow the next semver
   derived from current changesets, not `0.0.0-canary.<…>`. After a stable
   `1.2.0`, the first canary is `1.2.1-canary.<sha>`, not `0.0.0-canary.<…>`.
-- `prereleaseTemplate: "{tag}.{commit-short}"` — produces
+- `prereleaseTemplate: "{tag}.{commit-short}"`—produces
   `1.2.1-canary.a1b2c3d` where `a1b2c3d` is the 7-character short SHA of the
   triggering commit.
 
@@ -81,14 +81,14 @@ upgrade, the publish fails with a generic `ENEEDAUTH` and OIDC is never even
 attempted.
 
 `--no-git-tag` on both `version` and `publish` prevents the runner from
-creating local git tags for snapshot canaries — they are ephemeral and don't
+creating local git tags for snapshot canaries—they're ephemeral and don't
 deserve long-lived pointers.
 
 `NPM_CONFIG_PROVENANCE=true` is belt-and-suspenders. Trusted Publishing
 attaches provenance automatically, but pinning the env var makes the
 intent explicit and survives any future action-version drift.
 
-## Why this job does not use `changesets/action@v2`
+## Why this job doesn't use `changesets/action@v2`
 
 `changesets/action@v2` creates a "Version Packages" PR after versioning —
 that's the wrong behaviour on `staging`. Snapshot mode's entire point is that
@@ -102,7 +102,7 @@ Same tool, no action wrapper, no PR creation.
 Only packages that are neither `private` nor in the `ignore` list of
 `.changeset/config.json`. Today, the publishable package is `@scope/example`
 (named `@deessejs/example` in the template, renamed by `pnpm setup`).
-The docs site (`apps/web`) is `private: true` and ignored — it never reaches
+The docs site (`apps/web`) is `private: true` and ignored—it never reaches
 npm.
 
 ## Re-running a failed canary
@@ -110,7 +110,7 @@ npm.
 A re-run with the same commit produces the same version
 (`1.2.1-canary.a1b2c3d`). npm rejects republishing an existing version. This
 is acceptable: re-runs only succeed when the underlying issue was transient
-(network, npm registry hiccup) and the previous publish did not actually
+(network, npm registry hiccup) and the previous publish didn't actually
 land. If the publish did land but a downstream step failed, a new canary
 requires a new commit.
 
