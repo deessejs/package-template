@@ -5,16 +5,19 @@ This directory documents the release engineering process for the
 
 ## Documents
 
-| Document                                                       | Audience                            | When to read                                                                                 |
-| -------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`overview.md`](./overview.md)                                 | Anyone                              | First. Read this to understand the model.                                                    |
-| [`canary-on-staging.md`](./canary-on-staging.md)               | Day-to-day contributors             | When you open or merge a PR against `staging`.                                               |
-| [`stable-on-main.md`](./stable-on-main.md)                     | Release engineers                   | When you ship a release from `main`.                                                         |
-| [`trusted-publishing-setup.md`](./trusted-publishing-setup.md) | First-time setup, post-`pnpm setup` | When configuring npm Trusted Publishing.                                                     |
-| [`incident-response.md`](./incident-response.md)               | On-call                             | When a release fails or a bad release ships.                                                 |
-| [`hotfix-on-main.md`](./hotfix-on-main.md)                     | Release engineers, security team    | When shipping a patch-level fix that bypasses staging for a CVE or production-impacting bug. |
-| [`back-merge.md`](./back-merge.md)                             | Release engineers                   | After a hotfix lands on `main`: bring the fix to `staging` without double-bumping.           |
-| [`pr-preview.md`](./pr-preview.md)                             | Anyone reviewing a PR               | When you want to install a build from a PR to review or smoke-test it before merge.          |
+| Document                                                       | Audience                            | When to read                                                                                    |
+| -------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`overview.md`](./overview.md)                                 | Anyone                              | First. Read this to understand the model.                                                       |
+| [`canary-on-staging.md`](./canary-on-staging.md)               | Day-to-day contributors             | When you open or merge a PR against `staging`.                                                  |
+| [`stable-on-main.md`](./stable-on-main.md)                     | Release engineers                   | When you ship a release from `main`.                                                            |
+| [`trusted-publishing-setup.md`](./trusted-publishing-setup.md) | First-time setup, post-`pnpm setup` | When configuring npm Trusted Publishing.                                                        |
+| [`incident-response.md`](./incident-response.md)               | On-call                             | When a release fails or a bad release ships.                                                    |
+| [`hotfix-on-main.md`](./hotfix-on-main.md)                     | Release engineers, security team    | When shipping a patch-level fix that bypasses staging for a CVE or production-impacting bug.    |
+| [`back-merge.md`](./back-merge.md)                             | Release engineers                   | After a hotfix lands on `main`: bring the fix to `staging` without double-bumping.              |
+| [`pr-preview.md`](./pr-preview.md)                             | Anyone reviewing a PR               | When you want to install a build from a PR to review or smoke-test it before merge.             |
+| [`versioning.md`](./versioning.md)                             | Release engineers, contributors     | When you are unsure what semver bump to use, or when shipping a breaking change or deprecation. |
+| [`governance.md`](./governance.md)                             | Maintainers                         | When you need to know who can push which branch, or how to update branch protection rules.      |
+| [`rollback.md`](./rollback.md)                                 | Release engineers, on-call          | When a release to `@latest` is broken or unsafe, and consumers need to be steered away from it. |
 
 ## Process summary
 
