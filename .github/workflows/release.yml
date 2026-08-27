@@ -2,40 +2,78 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
 
 concurrency:
-  group: release
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
-
-permissions:
-  contents: write
-  id-token: write       # npm Trusted Publishing (OIDC) — replaces NPM_TOKEN
-  pull-requests: write
 
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
-  release:
-    name: Release
+  publish-canary:
+    name: Publish canary
+    if: github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm Trusted Publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.14 # Trusted Publishing requires >= 22.14
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @deessejs/example build
+      - run: pnpm --filter @deessejs/example test:run
+
+      # Trusted Publishing needs npm >= 11.5.1; the runner ships with npm 10.
+      - run: npm install -g npm@latest
+
+      - name: Snapshot-version packages
+        run: pnpm changeset version --snapshot canary
+
+      - name: Publish to @canary
+        run: pnpm changeset publish --tag canary --no-git-tag
+        env:
+          NPM_CONFIG_PROVENANCE: 'true'
+
+  publish-stable:
+    name: Publish stable
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # npm Trusted Publishing (OIDC)
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 22.14   # Trusted Publishing requires ≥ 22.14
+          node-version: 22.14 # Trusted Publishing requires >= 22.14
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo build
       - run: pnpm turbo test:run
+
+      # Trusted Publishing needs npm >= 11.5.1; the runner ships with npm 10.
+      - run: npm install -g npm@latest
 
       - name: Create release PR or publish to npm
         uses: changesets/action@v2
