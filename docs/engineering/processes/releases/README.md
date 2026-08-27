@@ -51,11 +51,11 @@ flowchart LR
 
   dev -->|PR merge| staging
   staging -->|snapshot mode<br/>auto-publish| canaryTag
-  staging ==>|"PR: staging → main<br/>after canary validated"| main
+  staging -->|PR to main after<br/>canary validated| main
   main -->|changesets/action@v2<br/>auto-publish| latestTag
 
   main -.->|branch off for CVE| hotfix
-  hotfix ==>|"PR merge to main<br/>patch bump"| main
+  hotfix -->|PR merge to main<br/>patch bump| main
   hotfix -.->|snapshot hotfix<br/>optional validation| hotfixTag
   hotfix -->|forward-merge<br/>see back-merge.md| staging
 
