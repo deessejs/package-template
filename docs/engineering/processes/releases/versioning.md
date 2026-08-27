@@ -71,7 +71,7 @@ give consumers a migration window.
 When a published version is known to be broken or unsafe, mark it with
 `npm deprecate @scope/example@"<1.2.1" "reason"`. The message should:
 
-- Identify the affected version range using a semver range (e.g.
+- Identify the affected version range using a semver range (for example,
   `<1.2.1`, `>=1.0.0 <1.2.0`).
 - State the reason in one short sentence (security, regression, etc.).
 - Point to the fixed version when applicable.

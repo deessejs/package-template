@@ -11,7 +11,7 @@ This document is the operational playbook referenced from
 [`incident-response.md`](./incident-response.md) and
 [`hotfix-on-main.md`](./hotfix-on-main.md).
 
-## Decision: deprecate, don't unpublish
+## Decision: Deprecate, don't unpublish
 
 The standard rollback action is to **deprecate** the bad version, not
 to **unpublish** it. Unpublishing is heavily restricted by npm:

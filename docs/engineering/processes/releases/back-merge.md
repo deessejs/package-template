@@ -38,7 +38,7 @@ There are two viable approaches: forward-merge (preferred) and
 cherry-pick (fallback). The project recommends forward-merge when the
 hotfix branch is still alive.
 
-## Approach A: forward-merge (preferred)
+## Approach A: Forward-merge (preferred)
 
 This is GitFlow's canonical "finishing a hotfix" pattern, applied to our
 branch topology.
@@ -96,7 +96,7 @@ This preserves the branch identity in the history graph, which makes
 `git log --first-parent` and `git log --graph` output meaningful. it's
 also what the GitFlow pattern recommends.
 
-## Approach B: cherry-pick (fallback)
+## Approach B: Cherry-pick (fallback)
 
 Use this when the hotfix branch was deleted after merge, or when a
 forward-merge is impractical due to staging churn.
@@ -106,10 +106,10 @@ forward-merge is impractical due to staging churn.
 The PR introduced on `main` has two commits (assuming default merge
 strategy):
 
-1. The PR's own commit(s), authored by the developer.
+1. The PR's own commits, authored by the developer.
 2. The "Version Packages" commit from `changesets/action@v2`.
 
-Cherry-pick only the **PR's own commit(s)**, not the "Version Packages"
+Cherry-pick only the **PR's own commits**, not the "Version Packages"
 commit. To find them:
 
 ```bash
@@ -268,7 +268,7 @@ intact.
 
 In rare cases, skip the back-merge entirely:
 
-- The hotfix is **not patch-level** (contradicts the hotfix definition
+- The hotfix isn't **patch-level** (contradicts the hotfix definition
   in `hotfix-on-main.md`; revisit that definition first).
 - The hotfix is to a **completely separate package** that staging has
   already published independently. Cherry-picking is unnecessary

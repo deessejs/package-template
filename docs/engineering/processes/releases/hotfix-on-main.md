@@ -48,7 +48,7 @@ If any of these isn't true, use the normal `staging → main` flow.
 ## Changeset
 
 The PR must include a `.changeset/*.md` file with a `patch` bump for the
-affected package(s). Body format:
+affected packages. Body format:
 
 ```md
 ---
@@ -151,7 +151,7 @@ straight to `changeset publish`.
 
 ### Hotfix merged before validation completes
 
-If the validation phase surfaces a problem after the merge, do **not**
+If the validation phase surfaces a problem after the merge, don't
 publish a corrective patch on the same PR. The hotfix has already shipped
 to `@latest`. The corrective patch goes through the normal `staging →
 main` flow as a regular release.
