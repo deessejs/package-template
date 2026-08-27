@@ -29,16 +29,16 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 22.14 # Trusted Publishing requires >= 22.14
+          # Node 24-edge: rolling patches on Node 24 LTS. Required because
+          # Trusted Publishing needs npm >= 11.5.1, and the latest npm
+          # requires Node >= 22.22.
+          node-version: 24-edge
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @deessejs/example build
       - run: pnpm --filter @deessejs/example test:run
-
-      # Trusted Publishing needs npm >= 11.5.1; the runner ships with npm 10.
-      - run: npm install -g npm@latest
 
       - name: Snapshot-version packages
         run: pnpm changeset version --snapshot canary
@@ -64,16 +64,16 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 22.14 # Trusted Publishing requires >= 22.14
+          # Node 24-edge: rolling patches on Node 24 LTS. Required because
+          # Trusted Publishing needs npm >= 11.5.1, and the latest npm
+          # requires Node >= 22.22.
+          node-version: 24-edge
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo build
       - run: pnpm turbo test:run
-
-      # Trusted Publishing needs npm >= 11.5.1; the runner ships with npm 10.
-      - run: npm install -g npm@latest
 
       - name: Create release PR or publish to npm
         uses: changesets/action@v2
