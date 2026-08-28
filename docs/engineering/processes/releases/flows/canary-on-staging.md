@@ -56,8 +56,8 @@ Configured in `.changeset/config.json`:
 - `prereleaseTemplate: "{tag}"`: produces versions like `1.3.0-canary`
   where `1.3.0` is the computed next semver.
 
-This template does not embed the commit SHA in the canary version. Changesets
-in `--snapshot` mode does not substitute `{commit-short}` (that placeholder
+This template doesn't embed the commit SHA in the canary version. Changesets
+in `--snapshot` mode doesn't substitute `{commit-short}` (that placeholder
 only works in `pre enter` pre-release mode). Without a SHA suffix:
 
 - Two canaries built from the same commit conflict at npm publish time
