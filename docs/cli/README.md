@@ -1,4 +1,4 @@
-# `<CLI> docs` — Internal Architecture
+# `<CLI> docs`: Internal Architecture
 
 Architecture documents for the `<CLI> docs` command-line interface. Read
 these before modifying the CLI or adding a subcommand.
@@ -100,7 +100,7 @@ implementation milestone. See `06-roadmap.md` for phasing.
 1. [`02-design.md`](./02-design.md): the six subcommands at a glance,
    output conventions, the `.docs.md` format, and the decisions that
    shaped them. Per-command detail lives in
-   [`commands/`](./commands/) — read the relevant one when you start
+   [`commands/`](./commands/); read the relevant one when you start
    implementing or modifying a subcommand.
 2. [`03-architecture.md`](./03-architecture.md): modules, types, data
    flow, argv parsing, error model.

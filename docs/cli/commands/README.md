@@ -5,12 +5,12 @@ the file for a subcommand before implementing or modifying it.
 
 Each file has the same five sections:
 
-1. **Signature** — args, flags, and the call shape.
-2. **Output format** — what goes to stdout, byte by byte.
-3. **Exit codes** — when `0`, `1`, or `2` is returned and what they
+1. **Signature**: args, flags, and the call shape.
+2. **Output format**: what goes to stdout, byte by byte.
+3. **Exit codes**: when `0`, `1`, or `2` is returned and what they
    mean.
-4. **Edge cases** — empty input, ambiguous input, malformed input.
-5. **Internal modules** — which `src/*.ts` modules participate.
+4. **Edge cases**: empty input, ambiguous input, malformed input.
+5. **Internal modules**: which `src/*.ts` modules participate.
 
 The exit code contract (`0` success, `1` user error, `2` internal
 error) is shared across all six commands and is summarised in

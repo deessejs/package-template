@@ -23,7 +23,7 @@ output formats, edge cases, internal modules) lives in
 | `grep`    | `<pattern>`        | `<file>:<line>:<text>` for every matching line            | Free-text search     |
 | `find`    | `<query>`          | Table `Symbol · Source · Path`, one match per row         | Symbol lookup        |
 | `path`    | `<file-or-symbol>` | A single absolute or corpus-relative path                 | Resolving a name     |
-| `symbols` | —                  | Newline-separated list of every symbol in the corpus      | Building an index    |
+| `symbols` | none               | Newline-separated list of every symbol in the corpus      | Building an index    |
 
 ### Why these six and not more
 

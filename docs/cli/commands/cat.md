@@ -80,4 +80,4 @@ The Buffer type represents a typed array of bytes …
 
 `cat` triggers index construction lazily if it's the first command
 that needs the symbol map. `ls`, `grep`, `symbols`, `find`, and `path`
-do too — see `04-corpus.md` for the lazy-build policy.
+do too. See `04-corpus.md` for the lazy-build policy.
