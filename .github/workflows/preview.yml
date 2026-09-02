@@ -33,4 +33,4 @@ jobs:
       - run: pnpm --filter @deessejs/package-cli build
 
       - name: Publish previews to pkg.pr.new
-        run: pnpm exec pkg-pr-new publish './packages/example' './apps/cli'
+        run: pnpm exec pkg-pr-new publish --bin '@deessejs/package-cli' './packages/example' './apps/cli'
