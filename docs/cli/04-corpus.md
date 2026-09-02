@@ -1,7 +1,7 @@
 # 4. Corpus
 
-Where the `.docs.md` files come from, how they are discovered, and how
-they are indexed.
+Where the `.docs.md` files come from, how they're discovered, and how
+they're indexed.
 
 ## Three options were on the table
 
@@ -13,7 +13,8 @@ they are indexed.
 
 ## Decision: **Option B**
 
-The CLI consumes the build artefacts produced by Fumadocs into `.source/`.
+The CLI consumes the build artefacts produced by Fumadocs into
+`.source/`.
 
 ### Why B over A
 
@@ -24,16 +25,16 @@ The CLI consumes the build artefacts produced by Fumadocs into `.source/`.
   `includeProcessedMarkdown: true` enabled in
   `apps/web/source.config.ts`. The output is plain markdown with
   frontmatter, which is what we want.
-- **No double work.** If A and B both parse the same MDX, we drift
-  the moment either side upgrades its parser. B reads what Fumadocs
+- **No double work.** If A and B both parse the same MDX, we drift the
+  moment either side upgrades its parser. B reads what Fumadocs
   produced; we trust it.
 
 ### Why B over C
 
 - C is the cleanest in the long run, but it adds a workspace, a
-  package.json, a build pipeline, and a versioning story — for one
+  package.json, a build pipeline, and a versioning story for one
   consumer (the CLI). The cost is justified when there are two
-  consumers; right now there is one.
+  consumers; right now there's one.
 - We can promote B to C the day a second consumer appears. Migration
   is a refactor of one module, not a redesign.
 
@@ -42,13 +43,13 @@ The CLI consumes the build artefacts produced by Fumadocs into `.source/`.
 The CLI now has a **build dependency** on `apps/web`. Two
 consequences:
 
-1. `pnpm --filter vgpu build` (the CLI build) must run after
+1. `pnpm --filter <CLI> build` (the CLI build) must run after
    `pnpm --filter web build` produces fresh artefacts in `.source/`.
    This is already handled by `turbo.json`'s `dependsOn: ["^build"]`
    rule.
-2. `apps/web` cannot be removed without breaking the CLI. This is
+2. `apps/web` can't be removed without breaking the CLI. This is
    acceptable: `apps/web` is part of the template's core, and a CLI
-   without a docs site is not a use case we're targeting.
+   without a docs site isn't a use case we're targeting.
 
 ## Corpus root and discovery
 
@@ -59,7 +60,7 @@ The corpus root is resolved in this order:
 3. The default: `<repo-root>/apps/web/.source`, resolved relative to
    the CLI's working directory.
 
-If the resolved path does not exist or is not a directory, the CLI
+If the resolved path doesn't exist or isn't a directory, the CLI
 emits an `InternalError`:
 
 ```
@@ -75,8 +76,8 @@ The CLI consumes only the artefacts produced by Fumadocs with
 - A manifest (JSON) listing every page, its path, its frontmatter,
   and its processed body.
 
-The CLI does **not** parse the original `.mdx` files. It only reads
-the processed output. This is the contract.
+The CLI doesn't parse the original `.mdx` files. It only reads the
+processed output. This is the contract.
 
 ### Schema assumed of the processed artefact
 
@@ -107,7 +108,7 @@ If two files share the same `title`, the later one wins and a warning
 goes to stderr:
 
 ```
-[warn] duplicate symbol "Buffer" in /vgpu/web/buffer.docs.md; /vgpu/core/buffer.docs.md ignored
+[warn] duplicate symbol "Buffer" in /path/to/web/buffer.docs.md; /path/to/core/buffer.docs.md ignored
 ```
 
 The index is built lazily, on the first `find`, `grep`, or `symbols`
@@ -122,7 +123,7 @@ call. `ls`, `cat`, and `path` work without it.
 ## Cache invalidation
 
 Within one invocation: see `03-architecture.md`. Across invocations:
-there is no cache. Each `npx vgpu docs …` is fresh.
+there's no cache. Each `npx <CLI> docs …` is fresh.
 
 ## Local development
 
@@ -133,18 +134,18 @@ When working on the CLI locally, the typical loop is:
 pnpm --filter web build
 
 # 2. Run the CLI against the local corpus
-pnpm --filter vgpu dev -- ls /
+pnpm --filter <CLI> dev -- ls /
 
 # 3. Or, with the binary pointed at a custom corpus
-pnpm --filter vgpu dev -- --corpus ./apps/web/.source ls /
+pnpm --filter <CLI> dev -- --corpus ./apps/web/.source ls /
 ```
 
 The `dev` script in `apps/cli/package.json` should resolve to
 `tsx src/index.ts` so that TypeScript runs without a build step.
 
-## Future: supporting multiple corpora
+## Future: Supporting Multiple Corpora
 
 If we later need to point the CLI at a corpus other than the
-template's own (e.g. a downstream consumer's docs), the `--corpus`
-flag is the extension point. The CLI already supports it; no design
-change is required.
+template's own (for example a downstream consumer's docs), the
+`--corpus` flag is the extension point. The CLI already supports it;
+no design change is required.

@@ -25,7 +25,7 @@ apps/cli/
 │   ├── output.ts            # stdout/stderr/exit-code contract
 │   └── errors.ts            # typed errors, exit-code mapping
 ├── bin/
-│   └── vgpu.mjs             # shebang + re-export of src/index.ts
+│   └── <CLI>.mjs            # shebang + re-export of src/index.ts
 ├── tests/
 │   ├── corpus.test.ts
 │   ├── commands/            # one test file per command
@@ -43,7 +43,7 @@ This mirrors the shape of `packages/example/` and `apps/web/`, so
 
 ## Module responsibilities
 
-| Module                | Owns                                                                      | Does not own                          |
+| Module                | Owns                                                                      | Doesn't own                           |
 | --------------------- | ------------------------------------------------------------------------- | ------------------------------------- |
 | `src/index.ts`        | argv parsing, command dispatch                                            | business logic, formatting            |
 | `src/cli.ts`          | command registration table, top-level error handler                       | argv conventions per command          |
@@ -63,7 +63,7 @@ export interface DocsFile {
   readonly path: string;
   /** Canonical name from frontmatter `title`. */
   readonly title: string;
-  /** Source from frontmatter `source` (e.g. "@vgpu/web"). */
+  /** Source from frontmatter `source` (for example "@scope/core"). */
   readonly source: string;
   /** Raw markdown body (frontmatter stripped). */
   readonly body: string;
@@ -127,10 +127,10 @@ argv  →  command(args)  →  Corpus (loaded once, cached)
 Two caches live in module scope:
 
 - **Corpus cache.** The corpus is read from disk the first time any
-  command needs it, then held in memory. There is no watch mode; the
+  command needs it, then held in memory. There's no watch mode; the
   cache is invalidated only on process exit.
 - **Index cache.** The inverted index is built lazily on the first
-  `find`/`grep`/`symbols` call, then held in memory.
+  `find`, `grep`, or `symbols` call, then held in memory.
 
 If the corpus is large enough that this hurts, the next iteration can
 add a `--no-cache` flag and a streaming mode. Not now.
@@ -142,19 +142,19 @@ We use **`commander`**, not `yargs` or `process.argv` slicing:
 - Battle-tested.
 - Generates `--help` automatically.
 - TypeScript types are first-class.
-- Plays well with subcommands (`vgpu docs <command>` is a nested
+- Plays well with subcommands (`<CLI> docs <command>` is a nested
   commander program).
 
 The argv shape is:
 
 ```
-vgpu [global flags] docs <command> [command args] [command flags]
+<CLI> [global flags] docs <command> [command args] [command flags]
 ```
 
 Global flags (`--corpus`, `--help`, `--version`) are registered on the
 top-level program. Per-command flags are registered on the subcommand.
-**Per-command flags are off by default in the first release** — see
-`02-design.md`.
+**Per-command flags are off by default in the first release** (see
+`02-design.md`).
 
 ## Output contract
 
@@ -169,7 +169,8 @@ export function exitWithError(err: unknown): never;
 - `writeRecords` writes each row followed by `\n` to stdout. No
   trailing blank line, no header.
 - `writeWarning` writes `[warn] <message>\n` to stderr. Used for
-  recoverable issues (e.g. a malformed frontmatter in one file).
+  recoverable issues (for example a malformed frontmatter in one
+  file).
 - `exitWithError` inspects the error's `exit` property (or falls back
   to `InternalError`), prints `[error] <message>\n` to stderr, and
   calls `process.exit`.
@@ -183,15 +184,15 @@ test.
 
 Two error classes is enough:
 
-- **`UserError`** — the caller did something wrong (unknown symbol,
+- **`UserError`**: the caller did something wrong (unknown symbol,
   path outside the corpus, malformed query). Exit code `1`. The
   message should be a one-liner that tells the user what to fix.
-- **`InternalError`** — something broke that the user can't fix
+- **`InternalError`**: something broke that the user can't fix
   (corpus unreadable, malformed frontmatter that prevents indexing).
   Exit code `2`. The message should include enough context for a bug
   report.
 
-Anything thrown that is neither a `UserError` nor an `InternalError`
+Anything thrown that's neither a `UserError` nor an `InternalError`
 is treated as an `InternalError` with the original error attached.
 
 ## Performance expectations
@@ -204,18 +205,18 @@ Concretely:
 - `find` over 5000 symbols: under 50 ms.
 - `grep` over 500 files: under 200 ms.
 
-These are aspirational — they guide the choice of in-memory index and
-the lazy-build pattern. They are not enforced by tests in the first
+These are aspirational. They guide the choice of in-memory index and
+the lazy-build pattern. They're not enforced by tests in the first
 release.
 
-## What the CLI does **not** own
+## What the CLI doesn't own
 
 To prevent scope creep:
 
-- **No configuration file.** No `.vgpurc`, no `vgpu.config.ts`. Flags
+- **No configuration file.** No `.clirc`, no `<CLI>.config.ts`. Flags
   only.
 - **No plugin system.** Adding a subcommand is a code change, not a
   config change.
-- **No caching across invocations.** Each `npx vgpu docs …` call
+- **No caching across invocations.** Each `npx <CLI> docs …` call
   starts fresh. In-memory caching within one invocation is enough.
 - **No telemetry.** Nothing phones home.
