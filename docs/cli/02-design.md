@@ -3,6 +3,17 @@
 The shape of the user-facing surface: subcommands, output formats, the
 `.docs.md` convention, and the rationale for each.
 
+This file is the **overview**. Per-command detail (signatures, exact
+output formats, edge cases, internal modules) lives in
+[`commands/`](./commands/):
+
+- [`ls`](./commands/ls.md)
+- [`cat`](./commands/cat.md)
+- [`grep`](./commands/grep.md)
+- [`find`](./commands/find.md)
+- [`path`](./commands/path.md)
+- [`symbols`](./commands/symbols.md)
+
 ## The six subcommands
 
 | Command   | Args               | Returns                                                   | When to use          |
@@ -13,43 +24,6 @@ The shape of the user-facing surface: subcommands, output formats, the
 | `find`    | `<query>`          | Table `Symbol · Source · Path`, one match per row         | Symbol lookup        |
 | `path`    | `<file-or-symbol>` | A single absolute or corpus-relative path                 | Resolving a name     |
 | `symbols` | —                  | Newline-separated list of every symbol in the corpus      | Building an index    |
-
-### Worked examples
-
-```bash
-# List everything under /guides
-$ npx <CLI> docs ls /guides
-getting-started.docs.md
-concepts-effects.docs.md
-shader-workflow.docs.md
-texture-formats.docs.md
-
-# Find every symbol whose name contains "Buffer"
-$ npx <CLI> docs find "Buffer"
-Buffer           @scope/core    /path/to/buffer.docs.md
-BufferOptions    @scope/core    /path/to/buffer-options.docs.md
-BufferResize     @scope/core    /path/to/buffer-resize.docs.md
-
-# Print the markdown of one symbol
-$ npx <CLI> docs cat Buffer
-# Buffer
-…
-
-# Resolve a name to a path (returns the canonical location)
-$ npx <CLI> docs path Buffer
-/path/to/buffer.docs.md
-
-# All symbols
-$ npx <CLI> docs symbols
-Buffer
-BufferOptions
-BufferResize
-…
-
-# Substring search across all files
-$ npx <CLI> docs grep "resize"
-/path/to/buffer.docs.md:42: Resize events …
-```
 
 ### Why these six and not more
 
@@ -81,6 +55,22 @@ Output is **plain text, machine-friendly, no decoration**. Specifically:
 - **Errors go to stderr, exit code is non-zero.** Stdout is reserved
   for the record stream.
 
+Per-command output specifics (column widths, exact separator, what
+goes in each column) are in the per-command files under `commands/`.
+
+## Exit codes
+
+| Code | Meaning                                                         | Examples                                                      |
+| ---- | --------------------------------------------------------------- | ------------------------------------------------------------- |
+| `0`  | Success, including "no match" cases (`find`, `grep`, `symbols`) | `find` with no results, `grep` with no matches                |
+| `1`  | User error                                                      | Unknown symbol, path outside the corpus, ambiguous match      |
+| `2`  | Internal error                                                  | Corpus unreadable, malformed frontmatter that breaks indexing |
+
+Commands exit `0` on "no match" by design: shell pipelines that pipe
+into `find` or `grep` shouldn't need `|| true`. The distinction
+between "user error" and "internal error" matters for scripts that
+want to retry on transient failures.
+
 ## The `.docs.md` convention
 
 A `.docs.md` file is a markdown file with three properties:
@@ -101,7 +91,8 @@ A `.docs.md` file is a markdown file with three properties:
    one function, or one type definition. Multi-symbol files are
    allowed but discouraged: when `find` matches a symbol inside a file
    hosting many, the output still resolves to the file, not to a
-   sub-section. See `04-corpus.md` for the indexing implications.
+   sub-section. See [`04-corpus.md`](./04-corpus.md) for the indexing
+   implications.
 
 ### Why `.docs.md` and not `.md` or `.mdx`
 

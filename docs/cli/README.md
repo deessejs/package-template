@@ -97,9 +97,11 @@ implementation milestone. See `06-roadmap.md` for phasing.
 
 ## Read in order
 
-1. [`02-design.md`](./02-design.md): the six subcommands, output
-   formats, the `.docs.md` convention, and the decisions that shaped
-   them.
+1. [`02-design.md`](./02-design.md): the six subcommands at a glance,
+   output conventions, the `.docs.md` format, and the decisions that
+   shaped them. Per-command detail lives in
+   [`commands/`](./commands/) — read the relevant one when you start
+   implementing or modifying a subcommand.
 2. [`03-architecture.md`](./03-architecture.md): modules, types, data
    flow, argv parsing, error model.
 3. [`04-corpus.md`](./04-corpus.md): where the corpus comes from, how
