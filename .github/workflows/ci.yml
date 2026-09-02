@@ -105,4 +105,6 @@ jobs:
 
       # Catches a broken `files` allowlist or exports map before it ships.
       - name: Inspect package contents
-        run: pnpm --filter @deessejs/example exec npm pack --dry-run
+        run: |
+          pnpm --filter @deessejs/example exec npm pack --dry-run
+          pnpm --filter @deessejs/package-cli exec npm pack --dry-run
