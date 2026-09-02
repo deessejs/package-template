@@ -30,6 +30,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @deessejs/example build
+      - run: pnpm --filter @deessejs/package-cli build
 
-      - name: Publish preview to pkg.pr.new
+      - name: Publish @deessejs/example preview to pkg.pr.new
         run: pnpm exec pkg-pr-new publish './packages/example'
+
+      - name: Publish @deessejs/package-cli preview to pkg.pr.new
+        run: pnpm exec pkg-pr-new publish './apps/cli'
