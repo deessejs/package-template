@@ -83,6 +83,39 @@ a red icon. To inspect the full HTML report locally, open
 4. Ensure all CI checks pass
 5. The release workflow is fully automatic — no label to add.
 
+## Adding a Workspace
+
+When you add a new `apps/*` or `packages/*` directory:
+
+1. **Scaffold from a neighbour.** Copy the closest existing workspace's
+   `package.json`, `tsconfig*.json`, `eslint.config.*`, and
+   `vitest.config.ts` as a starting point. Adjust the `name`, the
+   directory name (`git mv`), and the `description`.
+2. **Match the Turbo pipeline contract.** Every workspace must expose
+   `build`, `test:run`, `type-check`, `lint`, and `clean`. `test` (watch)
+   and `dev` are optional.
+3. **Respect the package conventions.** Publishable workspaces are
+   ESM-only, use `files` (never `.npmignore`), and keep two
+   `tsconfig` files (`noEmit` for editor/type-check, emit for build).
+   Tests live outside `src/` so they never reach `dist/`.
+4. **For workspace deps**, use `"@scope/other": "workspace:*"` and run
+   `pnpm install` from the root. Never pin a version range for a
+   workspace dependency.
+5. **Verify locally** before pushing:
+   ```bash
+   pnpm install
+   pnpm --filter @scope/your-workspace build
+   pnpm --filter @scope/your-workspace test:run
+   pnpm lint && pnpm type-check && pnpm test:run && pnpm build
+   ```
+
+The full runbook — including a worked example for a CLI workspace —
+lives in [`docs/contributor/adding-a-workspace.md`](docs/contributor/adding-a-workspace.md).
+The rules that must not be broken live in
+[`docs/contributor/invariants.md`](docs/contributor/invariants.md). The
+reasoning behind the template's shape lives in
+[`docs/contributor/architecture.md`](docs/contributor/architecture.md).
+
 ## Questions?
 
 Open an issue or reach out to the maintainers.
