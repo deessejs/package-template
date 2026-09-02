@@ -1,8 +1,8 @@
-import { describe, it, expect, } from 'vitest';
-import { execFileSync, } from 'node:child_process';
-import { existsSync, readFileSync, } from 'node:fs';
-import { dirname, join, } from 'node:path';
-import { fileURLToPath, } from 'node:url';
+import { describe, it, expect } from 'vitest';
+import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const bin = join(__dirname, '..', 'bin', 'package-cli.mjs');
@@ -26,7 +26,7 @@ describe('Phase 0 scaffold', () => {
   it('errors on the placeholder "docs" subcommand', () => {
     let caught = false;
     try {
-      execFileSync('node', [bin, 'docs'], { encoding: 'utf8', stdio: 'pipe', });
+      execFileSync('node', [bin, 'docs'], { encoding: 'utf8', stdio: 'pipe' });
     } catch (err) {
       caught = true;
       const e = err as { stderr: Buffer; status: number | null };
