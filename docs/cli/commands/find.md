@@ -37,7 +37,7 @@ BufferResize     @scope/core    /path/to/core/buffer-resize.docs.md
 ```
 
 Symbol and source columns are padded to a fixed width computed from
-the longest cell in the result set. Path column is **not** padded:
+the longest cell in the result set. The path column isn't padded:
 variable-length paths stay left-aligned without trailing spaces.
 
 ### Example
