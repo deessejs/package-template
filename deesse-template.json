@@ -1,0 +1,60 @@
+{
+  "$schema": "https://registry.deessejs.com/schema/template/v2.json",
+  "name": "package-template",
+  "title": "Package Template",
+  "description": "Production-ready TypeScript monorepo template with pnpm workspaces, Turborepo, Vitest, and changesets.",
+  "version": "1.0.0",
+  "type": "template:starter",
+  "author": "DeesseJS <hello@deessejs.com>",
+  "license": "MIT",
+  "source": {
+    "repo": "deessejs/package-template",
+    "ref": "main"
+  },
+  "requires": {
+    "runtime": "node",
+    "node": ">=22",
+    "packageManager": "pnpm@10"
+  },
+  "files": [
+    { "path": "package.json", "type": "config" },
+    { "path": "pnpm-workspace.yaml", "type": "config" },
+    { "path": "turbo.json", "type": "config" },
+    { "path": ".gitignore", "type": "config" },
+    { "path": ".gitattributes", "type": "config" },
+    { "path": ".editorconfig", "type": "config" },
+    { "path": ".npmrc", "type": "config" },
+    { "path": ".prettierrc", "type": "config" },
+    { "path": ".prettierignore", "type": "config" },
+    { "path": ".vale.ini", "type": "config" },
+    { "path": ".changeset/config.json", "type": "config" },
+    { "path": ".husky/pre-commit", "type": "config" },
+    { "path": "scripts/setup.mjs", "type": "source" },
+    { "path": "README.md", "type": "doc" },
+    { "path": "LICENSE", "type": "doc" },
+    { "path": "public/banner-ds.jpg", "type": "asset" }
+  ],
+  "includes": [
+    "apps/**",
+    "packages/**",
+    ".github/workflows/**"
+  ],
+  "excludes": [
+    ".changeset/*.md",
+    ".claude/**",
+    "docs/**",
+    ".github/ISSUE_TEMPLATE/**",
+    ".github/CODEOWNERS",
+    ".github/FUNDING.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "apps/web/content/docs/**",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/.turbo/**",
+    "**/coverage/**"
+  ]
+}
