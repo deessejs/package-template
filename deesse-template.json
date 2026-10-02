@@ -16,28 +16,8 @@
     "node": ">=22",
     "packageManager": "pnpm@10"
   },
-  "files": [
-    { "path": "package.json", "type": "config" },
-    { "path": "pnpm-workspace.yaml", "type": "config" },
-    { "path": "turbo.json", "type": "config" },
-    { "path": ".gitignore", "type": "config" },
-    { "path": ".gitattributes", "type": "config" },
-    { "path": ".editorconfig", "type": "config" },
-    { "path": ".npmrc", "type": "config" },
-    { "path": ".prettierrc", "type": "config" },
-    { "path": ".prettierignore", "type": "config" },
-    { "path": ".vale.ini", "type": "config" },
-    { "path": ".changeset/config.json", "type": "config" },
-    { "path": ".husky/pre-commit", "type": "config" },
-    { "path": "scripts/setup.mjs", "type": "source" },
-    { "path": "README.md", "type": "doc" },
-    { "path": "LICENSE", "type": "doc" },
-    { "path": "public/banner-ds.jpg", "type": "asset" }
-  ],
   "includes": [
-    "apps/**",
-    "packages/**",
-    ".github/workflows/**"
+    "**"
   ],
   "excludes": [
     ".changeset/*.md",
@@ -55,6 +35,17 @@
     "**/dist/**",
     "**/.next/**",
     "**/.turbo/**",
-    "**/coverage/**"
-  ]
+    "**/coverage/**",
+    "**/.DS_Store",
+    "**/.env",
+    "**/.env.*"
+  ],
+  "fileTypes": {
+    "scripts/setup.mjs": "source",
+    "README.md": "doc",
+    "LICENSE": "doc",
+    ".changeset/config.json": "config",
+    ".husky/pre-commit": "config",
+    "public/banner-ds.jpg": "asset"
+  }
 }
