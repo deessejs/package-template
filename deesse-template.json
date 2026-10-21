@@ -1,8 +1,9 @@
 {
-  "$schema": "https://registry.deessejs.com/schema/template/v2.json",
+  "$schema": "https://raw.githubusercontent.com/deessejs/deessejs/main/templates/schema/template-v2.json",
   "name": "package-template",
-  "title": "Package Template",
-  "description": "Production-ready TypeScript monorepo template with pnpm workspaces, Turborepo, Vitest, and changesets.",
+  "slug": "package-starter",
+  "title": "Package Starter",
+  "description": "A pnpm and Turborepo monorepo with tests, changesets and a publish pipeline, so your library ships on day one.",
   "version": "1.0.0",
   "type": "template:starter",
   "author": "DeesseJS <hello@deessejs.com>",
@@ -14,23 +15,27 @@
   "requires": {
     "runtime": "node",
     "node": ">=22",
-    "packageManager": "pnpm@10"
+    "packageManager": "pnpm@10.30.3"
   },
-  "includes": [
-    "**"
-  ],
+  "product": {
+    "layer": "open-community",
+    "category": "library",
+    "labels": ["monorepo", "pnpm", "turborepo", "typescript"],
+    "image": "/ship-your-sdk.png"
+  },
+  "includes": ["**"],
   "excludes": [
     ".changeset/*.md",
-    ".claude/**",
-    "docs/**",
+    ".claude/settings.local.json",
+    ".claude/agent-memory/**",
+    ".claude/plans/**",
+    ".claude/worktrees/**",
+    ".claude/pr-body-*.md",
     ".github/ISSUE_TEMPLATE/**",
     ".github/CODEOWNERS",
     ".github/FUNDING.yml",
     ".github/PULL_REQUEST_TEMPLATE.md",
-    "apps/web/content/docs/**",
     "CHANGELOG.md",
-    "CLAUDE.md",
-    "CONTRIBUTING.md",
     "**/node_modules/**",
     "**/dist/**",
     "**/.next/**",
@@ -44,8 +49,11 @@
     "scripts/setup.mjs": "source",
     "README.md": "doc",
     "LICENSE": "doc",
+    "CONTRIBUTING.md": "doc",
+    "CLAUDE.md": "doc",
     ".changeset/config.json": "config",
     ".husky/pre-commit": "config",
-    "public/banner-ds.jpg": "asset"
+    ".github/workflows/ci.yml": "ci",
+    ".github/workflows/release.yml": "ci"
   }
 }
