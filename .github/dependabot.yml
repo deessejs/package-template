@@ -22,15 +22,17 @@ updates:
         dependency-type: "development"
         patterns: ["*"]
         update-types: ["minor", "patch"]
-      npm-major:
-        dependency-type: "development"
-        patterns: ["*"]
-        update-types: ["major"]
     # `increase` bumps the manifest specifier (^X.Y.Z -> ^X+1.0.0) so the
     # workspace package.json stays consistent with the regenerated lockfile.
     # Without this, Dependabot updates the lockfile but leaves the specifier
     # unchanged and `pnpm install --frozen-lockfile` fails in CI.
     versioning-strategy: increase
+    ignore:
+      # Major bumps are handled by hand. A major pull request on a published
+      # library changes the public surface, so it is opened only when the
+      # migration has landed and has been verified.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

@@ -50,3 +50,9 @@ temp/
 # The `config/` subdirectory stays tracked for project-specific vocab.
 .github/styles/*
 !/.github/styles/config/
+
+# Machine specific agent artefacts
+.claude/settings.local.json
+.claude/plans/
+.claude/worktrees/
+.claude/pr-body-*.md

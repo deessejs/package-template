@@ -21,7 +21,7 @@ jobs:
       contents: read
       id-token: write # npm Trusted Publishing (OIDC)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -57,7 +57,7 @@ jobs:
       id-token: write # npm Trusted Publishing (OIDC)
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
