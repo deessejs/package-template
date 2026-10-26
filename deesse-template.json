@@ -11,9 +11,7 @@
   "source": {
     "repo": "deessejs/package-template"
   },
-  "includes": [
-    "**/*"
-  ],
+  "includes": ["**/*"],
   "excludes": [
     "deesse-template.json",
     ".changeset/*.md",
