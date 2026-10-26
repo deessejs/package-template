@@ -1,5 +1,6 @@
 {
-  "$schema": "https://registry.deessejs.com/schema/template/v2.json",
+  "$schema": "https://app.deessejs.com/schema/template/v1.json",
+  "formatVersion": 1,
   "name": "package-template",
   "title": "Package Template",
   "description": "Production-ready TypeScript monorepo template with pnpm workspaces, Turborepo, Vitest, and changesets.",
@@ -8,18 +9,13 @@
   "author": "DeesseJS <hello@deessejs.com>",
   "license": "MIT",
   "source": {
-    "repo": "deessejs/package-template",
-    "ref": "main"
-  },
-  "requires": {
-    "runtime": "node",
-    "node": ">=22",
-    "packageManager": "pnpm@10"
+    "repo": "deessejs/package-template"
   },
   "includes": [
-    "**"
+    "**/*"
   ],
   "excludes": [
+    "deesse-template.json",
     ".changeset/*.md",
     ".claude/**",
     "docs/**",
@@ -39,13 +35,5 @@
     "**/.DS_Store",
     "**/.env",
     "**/.env.*"
-  ],
-  "fileTypes": {
-    "scripts/setup.mjs": "source",
-    "README.md": "doc",
-    "LICENSE": "doc",
-    ".changeset/config.json": "config",
-    ".husky/pre-commit": "config",
-    "public/banner-ds.jpg": "asset"
-  }
+  ]
 }
